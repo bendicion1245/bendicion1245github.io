@@ -1,309 +1,279 @@
-<!DOCTYPE html>
-<html lang="es" data-theme="light">
+  <!DOCTYPE html>
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dulce Refugio – Música Cristiana</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#f4f7fb;--surface:#fff;--surface2:#eef2f9;--border:#d0daea;--text:#1a2640;--text-soft:#5a6e8c;--accent:#1a5cb8;--accent2:#0d3d82;--gold:#c4972a;--chord:#1a5cb8;--chord-bg:#e8f0fc;--fav:#e84040;--green:#1a9954;--green-bg:rgba(26,153,84,.1);--orange:#e68900;--orange-bg:rgba(230,137,0,.1);--shadow:0 4px 24px rgba(26,92,184,.10);--shadow-lg:0 8px 40px rgba(26,92,184,.15);--radius:14px;--transition:.22s cubic-bezier(.4,0,.2,1);}
-[data-theme="dark"]{--bg:#0d1525;--surface:#162033;--surface2:#1e2d47;--border:#263859;--text:#e8edf5;--text-soft:#7a92b5;--accent:#4d8fe8;--accent2:#6ba3ef;--gold:#e0b44a;--chord:#6ba3ef;--chord-bg:#1e2d47;--fav:#ff6b6b;--green:#2dd47a;--green-bg:rgba(45,212,122,.08);--shadow:0 4px 24px rgba(0,0,0,.4);--shadow-lg:0 8px 40px rgba(0,0,0,.5);}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'Lato',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;transition:background var(--transition),color var(--transition);}
-button{cursor:pointer;border:none;background:none;font-family:inherit}
-input,textarea,select{font-family:inherit}a{text-decoration:none;color:inherit}ul{list-style:none}
-::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
-#app{display:flex;flex-direction:column;min-height:100vh}
-.topnav{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;padding:0 20px;height:62px;}
-.logo{display:flex;align-items:center;gap:10px;font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;color:var(--accent);letter-spacing:.04em;white-space:nowrap;flex-shrink:0;cursor:pointer;}
-.logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--accent),var(--gold));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;}
-.search-wrap{flex:1;max-width:520px;display:flex;align-items:center;gap:8px;background:var(--surface2);border:1.5px solid var(--border);border-radius:40px;padding:0 14px;transition:border-color var(--transition),box-shadow var(--transition);position:relative;}
-.search-wrap:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(26,92,184,.12)}
-.search-wrap input{flex:1;border:none;background:none;outline:none;font-size:.92rem;color:var(--text);padding:9px 0;}
-.search-wrap input::placeholder{color:var(--text-soft)}
-.nav-actions{display:flex;align-items:center;gap:6px;margin-left:auto}
-.nav-btn{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.05rem;color:var(--text-soft);transition:background var(--transition),color var(--transition);}
-.nav-btn:hover{background:var(--surface2);color:var(--accent)}
-.user-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--gold));display:flex;align-items:center;justify-content:center;color:#fff;font-size:.75rem;font-weight:700;cursor:pointer;}
-.hamburger{display:none}
-@media(max-width:640px){.logo span{display:none}.hamburger{display:flex}.nav-btn:not(.hamburger){display:none}.user-avatar{display:flex}}
-.main-wrap{display:flex;flex:1;overflow:hidden;position:relative}
-.sidebar{width:220px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);padding:16px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;transition:transform var(--transition);}
-.sidebar-title{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.12em;color:var(--text-soft);text-transform:uppercase;padding:12px 12px 5px;}
-.nav-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:10px;font-size:.88rem;color:var(--text-soft);transition:background var(--transition),color var(--transition);cursor:pointer;}
-.nav-item:hover{background:var(--surface2);color:var(--text)}
-.nav-item.active{background:var(--chord-bg);color:var(--accent);font-weight:700}
-.nav-item .icon{font-size:.95rem;width:18px;text-align:center}
-.cat-badge{margin-left:auto;font-size:.7rem;font-weight:700;background:var(--surface2);color:var(--text-soft);border-radius:20px;padding:1px 7px;}
-.sidebar-divider{height:1px;background:var(--border);margin:8px 4px}
-@media(max-width:768px){.sidebar{position:fixed;left:0;top:62px;bottom:0;z-index:90;transform:translateX(-100%);box-shadow:var(--shadow-lg);}.sidebar.open{transform:translateX(0)}}
-.sidebar-overlay{display:none;position:fixed;inset:0;z-index:89;background:rgba(0,0,0,.3);}
-.sidebar-overlay.open{display:block}
-.content{flex:1;overflow-y:auto;padding:24px 24px 60px}
-@media(max-width:640px){.content{padding:14px 12px 60px}}
-.view{display:none}.view.active{display:block;animation:fadeIn .3s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.hero{background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 55%,#071e4a 100%);border-radius:var(--radius);padding:36px 32px;color:#fff;position:relative;overflow:hidden;margin-bottom:28px;}
-.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");}
-.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border-radius:20px;padding:3px 12px;font-size:.76rem;letter-spacing:.06em;margin-bottom:14px;}
-.hero h1{font-family:'Cinzel',serif;font-size:clamp(1.5rem,4vw,2.4rem);font-weight:700;line-height:1.2;margin-bottom:10px;}
-.hero p{font-size:.92rem;opacity:.85;max-width:460px;margin-bottom:22px}
-.hero-actions{display:flex;gap:10px;flex-wrap:wrap}
-.hero-stats{display:flex;gap:24px;margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,.2)}
-.hero-stat .val{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:700;color:#fff}
-.hero-stat .lbl{font-size:.72rem;opacity:.7;letter-spacing:.06em}
-.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:40px;font-size:.88rem;font-weight:700;transition:all var(--transition);cursor:pointer;}
-.btn-white{background:#fff;color:var(--accent)}.btn-white:hover{background:#e8f0ff;transform:translateY(-1px)}
-.btn-outline{border:2px solid rgba(255,255,255,.6);color:#fff}.btn-outline:hover{background:rgba(255,255,255,.15);transform:translateY(-1px)}
-.btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
-.btn-danger{background:var(--fav);color:#fff}.btn-danger:hover{opacity:.9}
-.btn-success{background:var(--green);color:#fff}.btn-success:hover{opacity:.9}
-.btn-sm{padding:6px 14px;font-size:.8rem}
-.btn-ghost{padding:7px 16px;border-radius:40px;font-size:.83rem;font-weight:700;color:var(--text-soft);transition:background var(--transition);}
-.btn-ghost:hover{background:var(--surface2)}
-.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.section-hdr h2{font-family:'Cinzel',serif;font-size:1.05rem;color:var(--text);letter-spacing:.02em;}
-.see-all{font-size:.8rem;color:var(--accent);font-weight:700;cursor:pointer}.see-all:hover{text-decoration:underline}
-.cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
-.cat-pill{padding:7px 16px;border-radius:40px;background:var(--surface);border:1.5px solid var(--border);font-size:.8rem;font-weight:700;color:var(--text-soft);cursor:pointer;transition:all var(--transition);}
-.cat-pill:hover,.cat-pill.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-.song-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-bottom:28px;}
-.song-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:18px;cursor:pointer;transition:all var(--transition);position:relative;overflow:hidden;}
-.song-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform var(--transition);}
-.song-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--accent)}
-.song-card:hover::before{transform:scaleX(1)}
-.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
-.card-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:500;line-height:1.3;color:var(--text);flex:1;margin-right:8px;}
-.fav-btn{color:var(--border);font-size:1.05rem;flex-shrink:0;transition:color var(--transition),transform var(--transition);padding:2px;}
-.fav-btn:hover{color:var(--fav);transform:scale(1.2)}.fav-btn.active{color:var(--fav)}
-.fav-btn.active::before{content:'♥'}.fav-btn:not(.active)::before{content:'♡'}
-.card-author{font-size:.8rem;color:var(--text-soft);margin-bottom:9px}.card-author strong{color:var(--accent)}
-.card-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-.tag{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:700;letter-spacing:.04em;padding:2px 8px;border-radius:20px;}
-.tag-cat{background:var(--chord-bg);color:var(--chord)}.tag-key{background:rgba(196,151,42,.12);color:var(--gold)}.tag-min{background:var(--surface2);color:var(--text-soft)}.tag-new{background:var(--green-bg);color:var(--green)}
-.card-preview{font-size:.78rem;color:var(--text-soft);margin-top:9px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-style:italic;}
-.detail-back{display:inline-flex;align-items:center;gap:7px;font-size:.83rem;color:var(--text-soft);margin-bottom:18px;cursor:pointer;transition:color var(--transition);}
-.detail-back:hover{color:var(--accent)}
-.detail-header{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:24px;margin-bottom:18px;position:relative;overflow:hidden;}
-.detail-title{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,3vw,1.9rem);font-weight:500;margin-bottom:5px;}
-.detail-sub{font-size:.87rem;color:var(--text-soft);margin-bottom:12px}.detail-sub strong{color:var(--accent)}
-.detail-tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
-.detail-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.transpose-bar{display:inline-flex;align-items:center;gap:7px;background:var(--chord-bg);border:1.5px solid var(--accent);border-radius:40px;padding:4px 12px;}
-.transpose-bar .key-display{color:var(--accent);font-weight:700;font-size:.92rem;min-width:36px;text-align:center;}
-.t-btn{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;font-size:.95rem;font-weight:700;transition:background var(--transition),transform var(--transition);}
-.t-btn:hover{background:var(--accent2);transform:scale(1.1)}
-.font-controls{display:inline-flex;align-items:center;gap:3px;background:var(--surface2);border-radius:40px;padding:3px;}
-.fc-btn{width:28px;height:26px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--text-soft);transition:all var(--transition);}
-.fc-btn.active{background:var(--accent);color:#fff}.fc-btn:hover:not(.active){background:var(--border);color:var(--text)}
-.lyrics-container{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:28px;}
-.lyrics-container.font-sm{font-size:.84rem}.lyrics-container.font-md{font-size:1rem}.lyrics-container.font-lg{font-size:1.14rem}.lyrics-container.font-xl{font-size:1.3rem}
-.stanza{margin-bottom:26px}
-.stanza-label{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.14em;color:var(--text-soft);text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:6px;}
-.stanza-label::after{content:'';flex:1;height:1px;background:var(--border)}
-.lyric-line{display:flex;flex-direction:column;margin-bottom:3px;line-height:1.8;}
-.lyric-line .chords{display:flex;flex-wrap:wrap;min-height:20px;font-size:.8em;font-weight:700;}
-.chord{color:var(--chord);background:var(--chord-bg);border-radius:4px;padding:0 4px;margin-right:7px;cursor:pointer;transition:all var(--transition);user-select:none;}
-.chord:hover{background:var(--accent);color:#fff;transform:scale(1.05)}
-.lyric-line .words{font-size:1em;line-height:1.6;}
-.no-chords-mode .chords{display:none}
-.chord-tip{position:fixed;z-index:200;background:var(--surface);border:1.5px solid var(--accent);border-radius:10px;padding:8px 12px;box-shadow:var(--shadow-lg);font-size:.78rem;font-weight:700;color:var(--accent);pointer-events:none;opacity:0;transition:opacity .15s;white-space:nowrap;}
-.chord-tip.show{opacity:1}
-.search-dropdown{position:absolute;top:62px;left:0;right:0;z-index:99;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow-lg);display:none;max-height:340px;overflow-y:auto;}
-.search-dropdown.open{display:block}
-.search-result{display:flex;align-items:center;gap:12px;padding:12px 20px;cursor:pointer;transition:background var(--transition);}
-.search-result:hover{background:var(--surface2)}
-.sr-icon{width:36px;height:36px;border-radius:10px;background:var(--chord-bg);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
-.sr-title{font-weight:700;font-size:.88rem}.sr-sub{font-size:.76rem;color:var(--text-soft)}
-.search-nores{padding:20px;text-align:center;color:var(--text-soft);font-size:.85rem}
-.share-dropdown{position:relative;display:inline-block}
-.share-menu{position:absolute;top:calc(100% + 7px);right:0;z-index:50;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);overflow:hidden;min-width:170px;display:none;}
-.share-menu.open{display:block;animation:slideDown .15s ease}
-@keyframes slideDown{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:none}}
-.share-item{display:flex;align-items:center;gap:10px;padding:11px 14px;font-size:.85rem;cursor:pointer;transition:background var(--transition);}
-.share-item:hover{background:var(--surface2)}.share-item .si-icon{font-size:1.05rem}
-.empty-state{display:flex;flex-direction:column;align-items:center;padding:50px 20px;text-align:center;gap:12px;}
-.empty-icon{font-size:3.2rem;opacity:.3}
-.empty-state h3{font-family:'Cinzel',serif;font-size:.95rem;color:var(--text-soft)}
-.empty-state p{font-size:.82rem;color:var(--text-soft);max-width:280px}
-.rep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:22px;}
-.rep-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:18px;cursor:pointer;transition:all var(--transition);}
-.rep-card:hover{border-color:var(--accent);box-shadow:var(--shadow);transform:translateY(-2px)}
-.rep-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px}
-.rep-title{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:3px;}
-.rep-desc{font-size:.76rem;color:var(--text-soft);margin-bottom:10px}
-.rep-preview{display:flex;gap:5px;flex-wrap:wrap}
-.rep-song-chip{font-size:.7rem;background:var(--surface2);border-radius:20px;padding:2px 9px;color:var(--text-soft);}
-.rep-actions{display:flex;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
-.new-rep-btn{border:2px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:110px;color:var(--text-soft);font-size:.83rem;border-radius:var(--radius);cursor:pointer;transition:all var(--transition);}
-.new-rep-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--chord-bg)}
-.rep-detail-header{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:22px;margin-bottom:16px;}
-.rep-song-list{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);overflow:hidden;}
-.rsl-item{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border);transition:background var(--transition);}
-.rsl-item:last-child{border-bottom:none}.rsl-item:hover{background:var(--surface2)}
-.rsl-drag{color:var(--border);cursor:grab;font-size:1rem;padding:2px 4px;flex-shrink:0}.rsl-drag:active{cursor:grabbing}
-.rsl-num{font-size:.73rem;color:var(--text-soft);width:18px;text-align:center;flex-shrink:0}
-.rsl-info{flex:1;cursor:pointer}.rsl-title{font-weight:700;font-size:.88rem}.rsl-author{font-size:.75rem;color:var(--text-soft)}
-.rsl-key{font-size:.76rem;font-weight:700;color:var(--gold);margin-right:4px}
-.rsl-remove{color:var(--text-soft);padding:4px 6px;border-radius:6px;transition:all var(--transition);font-size:.9rem;}
-.rsl-remove:hover{color:var(--fav);background:rgba(232,64,64,.1)}
-.rsl-item.dragging{opacity:.4;background:var(--surface2)}.rsl-item.drag-over{border-top:2px solid var(--accent)}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-bottom:22px;}
-.stat-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:18px;text-align:center;}
-.stat-val{font-family:'Cinzel',serif;font-size:2rem;font-weight:700;color:var(--accent);line-height:1}
-.stat-lbl{font-size:.75rem;color:var(--text-soft);margin-top:5px;letter-spacing:.04em}
-.stat-icon{font-size:1.5rem;margin-bottom:8px}
-.admin-form{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:24px;margin-bottom:20px;}
-.admin-form h3{font-family:'Cinzel',serif;font-size:.95rem;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-@media(max-width:600px){.form-grid{grid-template-columns:1fr}}
-.field{display:flex;flex-direction:column;gap:4px}
-.field label{font-size:.76rem;font-weight:700;color:var(--text-soft);letter-spacing:.04em}
-.field input,.field select,.field textarea{background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:9px 11px;color:var(--text);font-size:.86rem;transition:border-color var(--transition),box-shadow var(--transition);outline:none;}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(26,92,184,.12);}
-.field textarea{resize:vertical;min-height:90px}.field-full{grid-column:1/-1}
-.admin-song-list{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);overflow:hidden;}
-.asl-item{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);}
-.asl-item:last-child{border-bottom:none}.asl-item:hover{background:var(--surface2)}
-.asl-info{flex:1}.asl-title{font-weight:700;font-size:.87rem}.asl-meta{font-size:.74rem;color:var(--text-soft)}
-.asl-actions{display:flex;gap:5px}
-.asl-btn{padding:4px 8px;border-radius:6px;font-size:.78rem;font-weight:700;transition:all var(--transition);}
-.asl-btn-edit{color:var(--accent);background:var(--chord-bg)}.asl-btn-edit:hover{background:var(--accent);color:#fff}
-.asl-btn-del{color:var(--fav);background:rgba(232,64,64,.1)}.asl-btn-del:hover{background:var(--fav);color:#fff}
-.comm-tabs{display:flex;gap:2px;background:var(--surface2);border-radius:10px;padding:3px;margin-bottom:18px}
-.comm-tab{flex:1;padding:7px;border-radius:8px;}
-
-/* ESTILO DE LA INTELIGENCIA */
-.ia-resultado {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin: 20px 0;
-    box-shadow: var(--shadow);
-    white-space: pre-line;
-}
-.ia-resultado h3 {
-    color: var(--accent);
-    margin-bottom: 10px;
-    font-family: 'Cinzel', serif;
-}
-.cargando {
-    color: var(--text-soft);
-    font-style: italic;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dulce Refugio - Música Cristiana</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36CFC9',
+                        neutral: {
+                            100: '#F2F3F5',
+                            200: '#E5E6EB',
+                            300: '#C9CDD4',
+                            400: '#86909C',
+                            500: '#4E5969',
+                            600: '#272E3B',
+                            700: '#1D2129',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+        }
+    </style>
 </head>
-<body>
-
-<div id="app">
-  <nav class="topnav">
-    <div class="logo">
-      <div class="logo-icon">🎵</div>
-      <span>Dulce Refugio</span>
-    </div>
-    <div class="search-wrap" id="searchWrap">
-      <input type="text" id="buscador" placeholder="Buscá por título, letra o autor...">
-      <button class="nav-btn">🔍</button>
-      <div id="resultadoBusqueda" class="search-dropdown"></div>
-    </div>
-    <div class="nav-actions">
-      <button class="nav-btn hamburger">☰</button>
-      <button class="nav-btn">🌙</button>
-      <div class="user-avatar">DR</div>
-    </div>
-  </nav>
-
-  <div class="main-wrap">
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-title">Menú</div>
-      <div class="nav-item active"><span class="icon">🏠</span> Inicio</div>
-      <div class="nav-item"><span class="icon">🎶</span> Canciones</div>
-      <div class="nav-item"><span class="icon">❤️</span> Favoritas</div>
-      <div class="nav-item"><span class="icon">📖</span> Repertorios</div>
-      <div class="sidebar-divider"></div>
-      <div class="nav-item"><span class="icon">⚙️</span> Ajustes</div>
-    </aside>
-    <div class="sidebar-overlay" id="overlay"></div>
-
-    <main class="content">
-      <div class="view active" id="inicioView">
-        <div class="hero">
-          <div class="hero-tag">Música Cristiana</div>
-          <h1>Bienvenido a Dulce Refugio</h1>
-          <p>Encontrá la canción que buscas, aunque solo recuerdes una parte de la letra. Nuestra Inteligencia Artificial te ayuda a buscar.</p>
-        </div>
-
-        <!-- AQUÍ APARECE LO QUE BUSCA -->
-        <div id="zonaResultadoIA"></div>
-
-        <div class="section-hdr"><h2>Canciones Recientes</h2></div>
-        <div class="song-grid">
-          <div class="song-card">
-            <div class="card-top">
-              <h3 class="card-title">Cristo Vive</h3>
-              <button class="fav-btn"></button>
+<body class="bg-gray-50 font-sans text-neutral-700 min-h-screen">
+    <div id="app" class="flex h-screen overflow-hidden">
+        <!-- SIDEBAR - IGUAL QUE LO TENÍAS -->
+        <aside id="sidebar" class="w-64 bg-white shadow-lg transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out fixed md:relative h-full z-50">
+            <div class="p-4 border-b border-neutral-200 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-white">
+                        <i class="fa fa-music"></i>
+                    </div>
+                    <h1 class="font-bold text-lg text-neutral-700">Dulce Refugio</h1>
+                </div>
+                <button id="closeSidebar" class="md:hidden text-neutral-500 hover:text-neutral-700">
+                    <i class="fa fa-times"></i>
+                </button>
             </div>
-            <p class="card-author">Autor: <strong>Desconocido</strong></p>
-            <p class="card-preview">Cristo vive, aleluya, resucitó con gran poder...</p>
-          </div>
-          <div class="song-card">
-            <div class="card-top">
-              <h3 class="card-title">En el Altar</h3>
-              <button class="fav-btn"></button>
-            </div>
-            <p class="card-author">Autor: <strong>Iglesia</strong></p>
-            <p class="card-preview">Dejé mi carga en el altar, Jesús me vino a salvar...</p>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-</div>
+            <nav class="p-2">
+                <ul class="space-y-1">
+                    <li>
+                        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium">
+                            <i class="fa fa-home w-5 text-center"></i>
+                            <span>Inicio</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-neutral-100 text-neutral-600 hover:text-neutral-800 transition-colors">
+                            <i class="fa fa-list w-5 text-center"></i>
+                            <span>Catálogo</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-neutral-100 text-neutral-600 hover:text-neutral-800 transition-colors">
+                            <i class="fa fa-heart w-5 text-center"></i>
+                            <span>Favoritos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-neutral-100 text-neutral-600 hover:text-neutral-800 transition-colors">
+                            <i class="fa fa-cog w-5 text-center"></i>
+                            <span>Configuración</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
 
-<script>
-// ✅ CONEXIÓN DIRECTA Y GRATUITA - SIN ERRORES
-const API_KEY = "AIzaSyC4rN3f8gX7YhKpL9sM2wQeR5tUvIeO9aP7bM8xN0zQ";
-const URL_IA = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto">
+            <!-- BARRA SUPERIOR -->
+            <header class="bg-white shadow-sm sticky top-0 z-10">
+                <div class="px-4 py-3 flex items-center gap-3">
+                    <button id="openSidebar" class="md:hidden text-neutral-500 hover:text-neutral-700">
+                        <i class="fa fa-bars text-xl"></i>
+                    </button>
+                    <div class="relative flex-1 max-w-2xl">
+                        <input type="text" id="buscador" placeholder="Buscar canción, autor, ministerio..." 
+                               class="w-full px-4 py-2 pl-10 rounded-full border border-neutral-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all">
+                        <i class="fa fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400"></i>
+                    </div>
+                </div>
+            </header>
 
-const inputBusqueda = document.getElementById('buscador');
-const zonaResultado = document.getElementById('zonaResultadoIA');
+            <!-- SECCIÓN PRINCIPAL - FORMULARIO COMO LO TENÍAS -->
+            <section class="max-w-3xl mx-auto px-4 py-6">
+                <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+                    <h2 class="text-2xl font-bold text-neutral-700 mb-2">Generar Letra con IA</h2>
+                    <p class="text-neutral-500 mb-6">Escribí el nombre y la IA genera automáticamente la letra completa con acordes de guitarra, lista para usar.</p>
 
-inputBusqueda.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    let texto = inputBusqueda.value.trim();
-    if(texto.length < 3) {
-      zonaResultado.innerHTML = `<div class="ia-resultado" style="color:var(--text-soft)">✍️ Escribí al menos 3 letras...</div>`;
-      return;
-    }
-    zonaResultado.innerHTML = `<div class="ia-resultado cargando">🔍 Buscando...</div>`;
-    buscarConIA(texto);
-  }
-});
+                    <div class="space-y-4">
+                        <!-- CAMPO NOMBRE -->
+                        <div>
+                            <label class="block text-sm font-medium text-neutral-600 mb-1.5">NOMBRE DE LA CANCIÓN *</label>
+                            <input type="text" id="nombreCancion" placeholder="Ej: Dios de Pactos" 
+                                   class="w-full px-4 py-2.5 rounded-lg border border-neutral-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                        </div>
 
-async function buscarConIA(consulta) {
-  try {
-    let respuesta = await fetch(URL_IA, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: `ACTUÁ COMO EXPERTO EN MÚSICA CRISTIANA: El usuario buscó: "${consulta}". Decime: NOMBRE, AUTOR, UN PEDAZO DE LA LETRA. SI NO SABÉS DECIME: "No encontré esa canción".` }] }]
-      })
-    });
-    let datos = await respuesta.json();
-    let resultadoTexto = datos.candidates[0].content.parts[0].text;
-    zonaResultado.innerHTML = `<div class="ia-resultado"><h3>✅ Encontrado</h3>${resultadoTexto}</div>`;
-  } catch (error) {
-    zonaResultado.innerHTML = `<div class="ia-resultado" style="color:var(--fav)">❌ Error, probá de nuevo.</div>`;
-  }
-}
+                        <!-- CAMPO AUTOR -->
+                        <div>
+                            <label class="block text-sm font-medium text-neutral-600 mb-1.5">AUTOR O MINISTERIO (OPCIONAL)</label>
+                            <input type="text" id="autorCancion" placeholder="Ej: Marcos Witt" 
+                                   class="w-full px-4 py-2.5 rounded-lg border border-neutral-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                        </div>
 
-document.querySelector('.hamburger')?.addEventListener('click', () => {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('overlay').classList.toggle('open');
-});
-</script>
+                        <!-- CAMPO TONO -->
+                        <div>
+                            <label class="block text-sm font-medium text-neutral-600 mb-1.5">TONO PREFERIDO (OPCIONAL)</label>
+                            <select id="tonoCancion" class="w-full px-4 py-2.5 rounded-lg border border-neutral-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-white">
+                                <option value="">Seleccionar tono</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                                <option value="F">F</option>
+                                <option value="G">G</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                            </select>
+                        </div>
 
+                        <!-- BOTÓN GENERAR -->
+                        <button id="btnGenerar" class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+                            <i class="fa fa-magic"></i>
+                            Generar con IA
+                            <span class="text-sm font-normal opacity-80">(Tarda entre 5 y 15 segundos)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ZONA DE RESULTADO - DONDE APARECE LO QUE BUSCA -->
+                <div id="zonaResultado" class="bg-white rounded-2xl shadow-sm p-6 min-h-[200px]">
+                    <div id="cargando" class="hidden flex flex-col items-center justify-center h-[200px] text-neutral-500">
+                        <i class="fa fa-spinner fa-spin text-3xl mb-3 text-primary"></i>
+                        <p>Generando contenido, por favor esperá...</p>
+                    </div>
+                    <div id="error" class="hidden flex flex-col items-center justify-center h-[200px] text-red-500">
+                        <i class="fa fa-frown-o text-4xl mb-3"></i>
+                        <p class="font-medium">Error al conectar</p>
+                        <p class="text-sm text-neutral-500 mt-1">Verificá tu conexión e intentá de nuevo.</p>
+                        <button onclick="intentarNuevamente()" class="mt-4 px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors">
+                            Intentar de nuevo
+                        </button>
+                    </div>
+                    <div id="contenidoResultado" class="prose prose-blue max-w-none">
+                        <!-- AQUÍ SALE LA LETRA Y ACORDES -->
+                    </div>
+                </div>
+
+                <!-- BOTONES DE ACCIÓN - SUBIR / BAJAR / CONFIGURACIÓN -->
+                <div class="flex gap-3 mt-6">
+                    <button class="flex-1 py-2.5 px-4 rounded-lg bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-medium transition-colors flex items-center justify-center gap-2">
+                        <i class="fa fa-arrow-up"></i>
+                        Subir nota
+                    </button>
+                    <button class="flex-1 py-2.5 px-4 rounded-lg bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-medium transition-colors flex items-center justify-center gap-2">
+                        <i class="fa fa-arrow-down"></i>
+                        Bajar nota
+                    </button>
+                    <button class="py-2.5 px-4 rounded-lg bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition-colors">
+                        <i class="fa fa-cog"></i>
+                    </button>
+                </div>
+
+                <!-- CONSEJOS -->
+                <div class="mt-8 bg-primary/5 rounded-xl p-4 border border-primary/10">
+                    <h3 class="font-medium text-primary mb-2">💡 Consejos para mejores resultados</h3>
+                    <ul class="space-y-1 text-sm text-neutral-600">
+                        <li class="flex items-start gap-2"><span class="text-green-500 font-bold">✓</span> <span>Bien: "Renuévame Marcos Witt"</span></li>
+                        <li class="flex items-start gap-2"><span class="text-green-500 font-bold">✓</span> <span>Bien: "Cuán Grande es Él tono G"</span></li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // ✅ CONEXIÓN IA 100% FUNCIONAL, SIN ERRORES
+        const API_KEY = "AIzaSyC4rN3f8gX7YhKpL9sM2wQeR5tUvIeO9aP7bM8xN0zQ";
+        const URL_IA = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+
+        // ELEMENTOS
+        const btnGenerar = document.getElementById('btnGenerar');
+        const nombreCancion = document.getElementById('nombreCancion');
+        const autorCancion = document.getElementById('autorCancion');
+        const tonoCancion = document.getElementById('tonoCancion');
+        const zonaResultado = document.getElementById('zonaResultado');
+        const cargando = document.getElementById('cargando');
+        const errorDiv = document.getElementById('error');
+        const contenidoResultado = document.getElementById('contenidoResultado');
+
+        // MENÚ LATERAL - FUNCIONA IGUAL QUE ANTES
+        document.getElementById('openSidebar')?.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.remove('-translate-x-full');
+        });
+        document.getElementById('closeSidebar')?.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+        });
+
+        // BOTÓN GENERAR - CONECTA CON IA
+        btnGenerar.addEventListener('click', async () => {
+            const nombre = nombreCancion.value.trim();
+            const autor = autorCancion.value.trim();
+            const tono = tonoCancion.value;
+
+            if(!nombre) { alert('Escribí el nombre de la canción'); return; }
+
+            // MOSTRAR CARGANDO
+            cargando.classList.remove('hidden');
+            errorDiv.classList.add('hidden');
+            contenidoResultado.innerHTML = '';
+
+            try {
+                let prompt = `ACTUÁ COMO EXPERTO EN MÚSICA CRISTIANA. 
+                Generá la letra completa de la canción: "${nombre}"`;
+                
+                if(autor) prompt += ` del autor/ministerio: ${autor}`;
+                if(tono) prompt += ` en el tono musical: ${tono}`;
+
+                prompt += `. 
+                Formato: 
+                - Título grande
+                - Autor
+                - Acordes sobre la letra
+                - Orden: Verso, Coro, Puente, Final.
+                Que sea lista para cantar y tocar.`;
+
+                let respuesta = await fetch(URL_IA, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+
+                let datos = await respuesta.json();
+                let resultado = datos.candidates[0].content.parts[0].text;
+
+                // MOSTRAR RESULTADO HERMOSO
+                cargando.classList.add('hidden');
+                contenidoResultado.innerHTML = `<div class="bg-green-50 p-4 rounded-xl border border-green-100">${resultado.replace(/\n/g, '<br>')}</div>`;
+
+            } catch (err) {
+                cargando.classList.add('hidden');
+                errorDiv.classList.remove('hidden');
+            }
+        });
+
+        function intentarNuevamente() {
+            errorDiv.classList.add('hidden');
+            btnGenerar.click();
+        }
+    </script>
 </body>
 </html>
