@@ -1,2 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dulce Refugio</title>
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif;}
+        body {background-color: #f0f4f8; color: #1a2b4a; padding:20px;}
+        .container {max-width: 800px; margin: 0 auto;}
+        h1 {color:#165DFF; text-align:center; margin:20px 0;}
+        .buscador {display:flex; gap:10px; margin-bottom:20px;}
+        input {flex:1; padding:12px 16px; border-radius:8px; border:1px solid #ccc; font-size:16px;}
+        button {padding:12px 20px; background:#165DFF; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;}
+        button:hover {background:#0f48cc;}
+        #resultado {background:white; padding:20px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.1); min-height:100px; white-space: pre-line;}
+        .cargando {color:#666; font-style:italic;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Dulce Refugio - Buscador de Canciones</h1>
+        <div class="buscador">
+            <input type="text" id="textoBusqueda" placeholder="Escribí nombre o parte de la letra...">
+            <button onclick="buscar()">Buscar con IA</button>
+        </div>
+        <div id="resultado"></div>
+    </div>
+
+<script>
 const API_KEY = "AIzaSyC4rN3f8gX7YhKpL9sM2wQeR5tUvIeO9aP7bM8xN0zQ";
-const URL_IA = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+
+async function buscar() {
+    let texto = document.getElementById('textoBusqueda').value.trim();
+    let res = document.getElementById('resultado');
+
+    if (!texto) { res.innerHTML = "⚠️ Escribí algo primero"; return; }
+
+    res.innerHTML = "<p class='cargando'>🔍 Buscando canción... esperá un segundo</p>";
+
+    try {
+        let peticion = await fetch(URL, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: `Sos experto en música cristiana. El usuario busca: "${texto}". Decime: ✅ NOMBRE, ✅ AUTOR / CANTANTE, ✅ UN PEDAZO DE LA LETRA. Si no sabés, decime: ❌ No encontré esa canción.` }] }]
+            })
+        });
+
+        let datos = await peticion.json();
+        let respuesta = datos.candidates[0].content.parts[0].text;
+        res.innerHTML = respuesta;
+
+    } catch (err) {
+        res.innerHTML = "❌ Error de conexión. Probá de nuevo.";
+    }
+}
+
+document.getElementById('textoBusqueda').addEventListener('keydown', e => {if(e.key==='Enter') buscar()});
+</script>
+</body>
+</html>
