@@ -1,0 +1,2328 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dulce Refugio – Música Cristiana</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f7fb;--surface:#fff;--surface2:#eef2f9;--border:#d0daea;--text:#1a2640;--text-soft:#5a6e8c;--accent:#1a5cb8;--accent2:#0d3d82;--gold:#c4972a;--chord:#1a5cb8;--chord-bg:#e8f0fc;--fav:#e84040;--green:#1a9954;--green-bg:rgba(26,153,84,.1);--orange:#e68900;--orange-bg:rgba(230,137,0,.1);--shadow:0 4px 24px rgba(26,92,184,.10);--shadow-lg:0 8px 40px rgba(26,92,184,.15);--radius:14px;--transition:.22s cubic-bezier(.4,0,.2,1);}
+[data-theme="dark"]{--bg:#0d1525;--surface:#162033;--surface2:#1e2d47;--border:#263859;--text:#e8edf5;--text-soft:#7a92b5;--accent:#4d8fe8;--accent2:#6ba3ef;--gold:#e0b44a;--chord:#6ba3ef;--chord-bg:#1e2d47;--fav:#ff6b6b;--green:#2dd47a;--green-bg:rgba(45,212,122,.08);--shadow:0 4px 24px rgba(0,0,0,.4);--shadow-lg:0 8px 40px rgba(0,0,0,.5);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Lato',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;transition:background var(--transition),color var(--transition);}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+input,textarea,select{font-family:inherit}a{text-decoration:none;color:inherit}ul{list-style:none}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+#app{display:flex;flex-direction:column;min-height:100vh}
+.topnav{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;padding:0 20px;height:62px;}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;color:var(--accent);letter-spacing:.04em;white-space:nowrap;flex-shrink:0;cursor:pointer;}
+.logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--accent),var(--gold));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.search-wrap{flex:1;max-width:520px;display:flex;align-items:center;gap:8px;background:var(--surface2);border:1.5px solid var(--border);border-radius:40px;padding:0 14px;transition:border-color var(--transition),box-shadow var(--transition);}
+.search-wrap:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(26,92,184,.12)}
+.search-wrap input{flex:1;border:none;background:none;outline:none;font-size:.92rem;color:var(--text);padding:9px 0;}
+.search-wrap input::placeholder{color:var(--text-soft)}
+.nav-actions{display:flex;align-items:center;gap:6px;margin-left:auto}
+.nav-btn{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.05rem;color:var(--text-soft);transition:background var(--transition),color var(--transition);}
+.nav-btn:hover{background:var(--surface2);color:var(--accent)}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--gold));display:flex;align-items:center;justify-content:center;color:#fff;font-size:.75rem;font-weight:700;cursor:pointer;}
+.hamburger{display:none}
+@media(max-width:640px){.logo span{display:none}.hamburger{display:flex}.nav-btn:not(.hamburger){display:none}.user-avatar{display:flex}}
+.main-wrap{display:flex;flex:1;overflow:hidden;position:relative}
+.sidebar{width:220px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);padding:16px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;transition:transform var(--transition);}
+.sidebar-title{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.12em;color:var(--text-soft);text-transform:uppercase;padding:12px 12px 5px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:10px;font-size:.88rem;color:var(--text-soft);transition:background var(--transition),color var(--transition);cursor:pointer;}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{background:var(--chord-bg);color:var(--accent);font-weight:700}
+.nav-item .icon{font-size:.95rem;width:18px;text-align:center}
+.cat-badge{margin-left:auto;font-size:.7rem;font-weight:700;background:var(--surface2);color:var(--text-soft);border-radius:20px;padding:1px 7px;}
+.sidebar-divider{height:1px;background:var(--border);margin:8px 4px}
+@media(max-width:768px){.sidebar{position:fixed;left:0;top:62px;bottom:0;z-index:90;transform:translateX(-100%);box-shadow:var(--shadow-lg);}.sidebar.open{transform:translateX(0)}}
+.sidebar-overlay{display:none;position:fixed;inset:0;z-index:89;background:rgba(0,0,0,.3);}
+.sidebar-overlay.open{display:block}
+.content{flex:1;overflow-y:auto;padding:24px 24px 60px}
+@media(max-width:640px){.content{padding:14px 12px 60px}}
+.view{display:none}.view.active{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hero{background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 55%,#071e4a 100%);border-radius:var(--radius);padding:36px 32px;color:#fff;position:relative;overflow:hidden;margin-bottom:28px;}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border-radius:20px;padding:3px 12px;font-size:.76rem;letter-spacing:.06em;margin-bottom:14px;}
+.hero h1{font-family:'Cinzel',serif;font-size:clamp(1.5rem,4vw,2.4rem);font-weight:700;line-height:1.2;margin-bottom:10px;}
+.hero p{font-size:.92rem;opacity:.85;max-width:460px;margin-bottom:22px}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap}
+.hero-stats{display:flex;gap:24px;margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,.2)}
+.hero-stat .val{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:700;color:#fff}
+.hero-stat .lbl{font-size:.72rem;opacity:.7;letter-spacing:.06em}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:40px;font-size:.88rem;font-weight:700;transition:all var(--transition);cursor:pointer;}
+.btn-white{background:#fff;color:var(--accent)}.btn-white:hover{background:#e8f0ff;transform:translateY(-1px)}
+.btn-outline{border:2px solid rgba(255,255,255,.6);color:#fff}.btn-outline:hover{background:rgba(255,255,255,.15);transform:translateY(-1px)}
+.btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-danger{background:var(--fav);color:#fff}.btn-danger:hover{opacity:.9}
+.btn-success{background:var(--green);color:#fff}.btn-success:hover{opacity:.9}
+.btn-sm{padding:6px 14px;font-size:.8rem}
+.btn-ghost{padding:7px 16px;border-radius:40px;font-size:.83rem;font-weight:700;color:var(--text-soft);transition:background var(--transition);}
+.btn-ghost:hover{background:var(--surface2)}
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.section-hdr h2{font-family:'Cinzel',serif;font-size:1.05rem;color:var(--text);letter-spacing:.02em;}
+.see-all{font-size:.8rem;color:var(--accent);font-weight:700;cursor:pointer}.see-all:hover{text-decoration:underline}
+.cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.cat-pill{padding:7px 16px;border-radius:40px;background:var(--surface);border:1.5px solid var(--border);font-size:.8rem;font-weight:700;color:var(--text-soft);cursor:pointer;transition:all var(--transition);}
+.cat-pill:hover,.cat-pill.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.song-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-bottom:28px;}
+.song-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:18px;cursor:pointer;transition:all var(--transition);position:relative;overflow:hidden;}
+.song-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform var(--transition);}
+.song-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--accent)}
+.song-card:hover::before{transform:scaleX(1)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.card-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:500;line-height:1.3;color:var(--text);flex:1;margin-right:8px;}
+.fav-btn{color:var(--border);font-size:1.05rem;flex-shrink:0;transition:color var(--transition),transform var(--transition);padding:2px;}
+.fav-btn:hover{color:var(--fav);transform:scale(1.2)}.fav-btn.active{color:var(--fav)}
+.fav-btn.active::before{content:'♥'}.fav-btn:not(.active)::before{content:'♡'}
+.card-author{font-size:.8rem;color:var(--text-soft);margin-bottom:9px}.card-author strong{color:var(--accent)}
+.card-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:700;letter-spacing:.04em;padding:2px 8px;border-radius:20px;}
+.tag-cat{background:var(--chord-bg);color:var(--chord)}.tag-key{background:rgba(196,151,42,.12);color:var(--gold)}.tag-min{background:var(--surface2);color:var(--text-soft)}.tag-new{background:var(--green-bg);color:var(--green)}
+.card-preview{font-size:.78rem;color:var(--text-soft);margin-top:9px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-style:italic;}
+.detail-back{display:inline-flex;align-items:center;gap:7px;font-size:.83rem;color:var(--text-soft);margin-bottom:18px;cursor:pointer;transition:color var(--transition);}
+.detail-back:hover{color:var(--accent)}
+.detail-header{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:24px;margin-bottom:18px;position:relative;overflow:hidden;}
+.detail-title{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,3vw,1.9rem);font-weight:500;margin-bottom:5px;}
+.detail-sub{font-size:.87rem;color:var(--text-soft);margin-bottom:12px}.detail-sub strong{color:var(--accent)}
+.detail-tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.detail-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.transpose-bar{display:inline-flex;align-items:center;gap:7px;background:var(--chord-bg);border:1.5px solid var(--accent);border-radius:40px;padding:4px 12px;}
+.transpose-bar .key-display{color:var(--accent);font-weight:700;font-size:.92rem;min-width:36px;text-align:center;}
+.t-btn{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;font-size:.95rem;font-weight:700;transition:background var(--transition),transform var(--transition);}
+.t-btn:hover{background:var(--accent2);transform:scale(1.1)}
+.font-controls{display:inline-flex;align-items:center;gap:3px;background:var(--surface2);border-radius:40px;padding:3px;}
+.fc-btn{width:28px;height:26px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--text-soft);transition:all var(--transition);}
+.fc-btn.active{background:var(--accent);color:#fff}.fc-btn:hover:not(.active){background:var(--border);color:var(--text)}
+.lyrics-container{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:28px;}
+.lyrics-container.font-sm{font-size:.84rem}.lyrics-container.font-md{font-size:1rem}.lyrics-container.font-lg{font-size:1.14rem}.lyrics-container.font-xl{font-size:1.3rem}
+.stanza{margin-bottom:26px}
+.stanza-label{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.14em;color:var(--text-soft);text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:6px;}
+.stanza-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.lyric-line{display:flex;flex-direction:column;margin-bottom:3px;line-height:1.8;}
+.lyric-line .chords{display:flex;flex-wrap:wrap;min-height:20px;font-size:.8em;font-weight:700;}
+.chord{color:var(--chord);background:var(--chord-bg);border-radius:4px;padding:0 4px;margin-right:7px;cursor:pointer;transition:all var(--transition);user-select:none;}
+.chord:hover{background:var(--accent);color:#fff;transform:scale(1.05)}
+.lyric-line .words{font-size:1em;line-height:1.6;}
+.no-chords-mode .chords{display:none}
+.chord-tip{position:fixed;z-index:200;background:var(--surface);border:1.5px solid var(--accent);border-radius:10px;padding:8px 12px;box-shadow:var(--shadow-lg);font-size:.78rem;font-weight:700;color:var(--accent);pointer-events:none;opacity:0;transition:opacity .15s;white-space:nowrap;}
+.chord-tip.show{opacity:1}
+.search-dropdown{position:absolute;top:62px;left:0;right:0;z-index:99;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow-lg);display:none;max-height:340px;overflow-y:auto;}
+.search-dropdown.open{display:block}
+.search-result{display:flex;align-items:center;gap:12px;padding:12px 20px;cursor:pointer;transition:background var(--transition);}
+.search-result:hover{background:var(--surface2)}
+.sr-icon{width:36px;height:36px;border-radius:10px;background:var(--chord-bg);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.sr-title{font-weight:700;font-size:.88rem}.sr-sub{font-size:.76rem;color:var(--text-soft)}
+.search-nores{padding:20px;text-align:center;color:var(--text-soft);font-size:.85rem}
+.share-dropdown{position:relative;display:inline-block}
+.share-menu{position:absolute;top:calc(100% + 7px);right:0;z-index:50;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);overflow:hidden;min-width:170px;display:none;}
+.share-menu.open{display:block;animation:slideDown .15s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:none}}
+.share-item{display:flex;align-items:center;gap:10px;padding:11px 14px;font-size:.85rem;cursor:pointer;transition:background var(--transition);}
+.share-item:hover{background:var(--surface2)}.share-item .si-icon{font-size:1.05rem}
+.empty-state{display:flex;flex-direction:column;align-items:center;padding:50px 20px;text-align:center;gap:12px;}
+.empty-icon{font-size:3.2rem;opacity:.3}
+.empty-state h3{font-family:'Cinzel',serif;font-size:.95rem;color:var(--text-soft)}
+.empty-state p{font-size:.82rem;color:var(--text-soft);max-width:280px}
+.rep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:22px;}
+.rep-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:18px;cursor:pointer;transition:all var(--transition);}
+.rep-card:hover{border-color:var(--accent);box-shadow:var(--shadow);transform:translateY(-2px)}
+.rep-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px}
+.rep-title{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:3px;}
+.rep-desc{font-size:.76rem;color:var(--text-soft);margin-bottom:10px}
+.rep-preview{display:flex;gap:5px;flex-wrap:wrap}
+.rep-song-chip{font-size:.7rem;background:var(--surface2);border-radius:20px;padding:2px 9px;color:var(--text-soft);}
+.rep-actions{display:flex;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.new-rep-btn{border:2px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:110px;color:var(--text-soft);font-size:.83rem;border-radius:var(--radius);cursor:pointer;transition:all var(--transition);}
+.new-rep-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--chord-bg)}
+.rep-detail-header{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:22px;margin-bottom:16px;}
+.rep-song-list{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);overflow:hidden;}
+.rsl-item{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border);transition:background var(--transition);}
+.rsl-item:last-child{border-bottom:none}.rsl-item:hover{background:var(--surface2)}
+.rsl-drag{color:var(--border);cursor:grab;font-size:1rem;padding:2px 4px;flex-shrink:0}.rsl-drag:active{cursor:grabbing}
+.rsl-num{font-size:.73rem;color:var(--text-soft);width:18px;text-align:center;flex-shrink:0}
+.rsl-info{flex:1;cursor:pointer}.rsl-title{font-weight:700;font-size:.88rem}.rsl-author{font-size:.75rem;color:var(--text-soft)}
+.rsl-key{font-size:.76rem;font-weight:700;color:var(--gold);margin-right:4px}
+.rsl-remove{color:var(--text-soft);padding:4px 6px;border-radius:6px;transition:all var(--transition);font-size:.9rem;}
+.rsl-remove:hover{color:var(--fav);background:rgba(232,64,64,.1)}
+.rsl-item.dragging{opacity:.4;background:var(--surface2)}.rsl-item.drag-over{border-top:2px solid var(--accent)}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-bottom:22px;}
+.stat-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:18px;text-align:center;}
+.stat-val{font-family:'Cinzel',serif;font-size:2rem;font-weight:700;color:var(--accent);line-height:1}
+.stat-lbl{font-size:.75rem;color:var(--text-soft);margin-top:5px;letter-spacing:.04em}
+.stat-icon{font-size:1.5rem;margin-bottom:8px}
+.admin-form{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:24px;margin-bottom:20px;}
+.admin-form h3{font-family:'Cinzel',serif;font-size:.95rem;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:.76rem;font-weight:700;color:var(--text-soft);letter-spacing:.04em}
+.field input,.field select,.field textarea{background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:9px 11px;color:var(--text);font-size:.86rem;transition:border-color var(--transition),box-shadow var(--transition);outline:none;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(26,92,184,.12);}
+.field textarea{resize:vertical;min-height:90px}.field-full{grid-column:1/-1}
+.admin-song-list{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);overflow:hidden;}
+.asl-item{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);}
+.asl-item:last-child{border-bottom:none}.asl-item:hover{background:var(--surface2)}
+.asl-info{flex:1}.asl-title{font-weight:700;font-size:.87rem}.asl-meta{font-size:.74rem;color:var(--text-soft)}
+.asl-actions{display:flex;gap:5px}
+.asl-btn{padding:4px 8px;border-radius:6px;font-size:.78rem;font-weight:700;transition:all var(--transition);}
+.asl-btn-edit{color:var(--accent);background:var(--chord-bg)}.asl-btn-edit:hover{background:var(--accent);color:#fff}
+.asl-btn-del{color:var(--fav);background:rgba(232,64,64,.1)}.asl-btn-del:hover{background:var(--fav);color:#fff}
+.comm-tabs{display:flex;gap:2px;background:var(--surface2);border-radius:10px;padding:3px;margin-bottom:18px}
+.comm-tab{flex:1;padding:7px;border-radius:8px;font-size:.8rem;font-weight:700;color:var(--text-soft);text-align:center;cursor:pointer;transition:all var(--transition);}
+.comm-tab.active{background:var(--surface);color:var(--accent);box-shadow:var(--shadow)}
+.suggestion-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;}
+.sug-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px}
+.sug-title{font-weight:700;font-size:.88rem}.sug-meta{font-size:.75rem;color:var(--text-soft)}
+.sug-status{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;}
+.sug-status.pending{background:var(--orange-bg);color:var(--orange)}.sug-status.approved{background:var(--green-bg);color:var(--green)}.sug-status.rejected{background:rgba(232,64,64,.1);color:var(--fav)}
+.vote-btn{display:inline-flex;align-items:center;gap:4px;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:20px;color:var(--text-soft);background:var(--surface2);transition:all var(--transition);cursor:pointer;border:none;}
+.vote-btn:hover{color:var(--accent);background:var(--chord-bg)}.vote-btn.voted{color:var(--accent);background:var(--chord-bg)}
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity var(--transition);}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:24px;max-width:440px;width:100%;box-shadow:var(--shadow-lg);transform:scale(.95);transition:transform var(--transition);}
+.modal-overlay.open .modal{transform:scale(1)}
+.modal-title{font-family:'Cinzel',serif;font-size:.95rem;margin-bottom:5px}
+.modal-sub{font-size:.82rem;color:var(--text-soft);margin-bottom:18px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+.modal-lg{max-width:600px}
+.toast-container{position:fixed;bottom:22px;right:22px;z-index:500;display:flex;flex-direction:column;gap:7px;}
+.toast{background:var(--text);color:var(--bg);border-radius:10px;padding:10px 16px;font-size:.83rem;font-weight:700;box-shadow:var(--shadow-lg);animation:toastIn .3s ease;max-width:270px;display:flex;align-items:center;gap:7px;}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+.toast.out{animation:toastOut .3s ease forwards}
+@keyframes toastOut{to{opacity:0;transform:translateX(40px)}}
+.offline-badge{display:none;align-items:center;gap:4px;font-size:.7rem;font-weight:700;background:#ff9800;color:#fff;border-radius:20px;padding:2px 8px;}
+body.offline .offline-badge{display:flex}
+.pwa-bar{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:.83rem;}
+.pwa-bar.hidden{display:none}
+.tab-row{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px}
+.tab-btn{padding:9px 18px;font-size:.85rem;font-weight:700;color:var(--text-soft);border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;transition:all var(--transition);}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}.tab-btn:hover:not(.active){color:var(--text)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.song-list-compact{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);overflow:hidden;}
+.slc-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background var(--transition);}
+.slc-item:last-child{border-bottom:none}.slc-item:hover{background:var(--surface2)}
+.slc-num{font-size:.72rem;color:var(--text-soft);width:18px;text-align:center;flex-shrink:0}
+.slc-info{flex:1}.slc-title{font-weight:700;font-size:.87rem}.slc-author{font-size:.74rem;color:var(--text-soft)}
+.slc-right{display:flex;align-items:center;gap:8px}
+/* ── FOLDERS ── */
+.folder-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:22px;}
+.folder-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:20px;cursor:pointer;transition:all var(--transition);position:relative;overflow:hidden;}
+.folder-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--folder-color,var(--accent));}
+.folder-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.folder-card:hover{border-color:var(--folder-color,var(--accent));}
+.folder-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:12px;background:color-mix(in srgb,var(--folder-color,var(--accent)) 15%,transparent);}
+.folder-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:500;margin-bottom:4px;}
+.folder-desc{font-size:.76rem;color:var(--text-soft);margin-bottom:10px;line-height:1.4}
+.folder-meta{display:flex;align-items:center;justify-content:space-between;}
+.folder-count{font-size:.78rem;color:var(--text-soft);font-weight:700;}
+.folder-actions{display:flex;gap:5px;}
+.new-folder-btn{border:2px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:130px;color:var(--text-soft);font-size:.83rem;border-radius:var(--radius);cursor:pointer;transition:all var(--transition);}
+.new-folder-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--chord-bg)}
+.fcolor-btn{width:36px;height:36px;border-radius:8px;cursor:pointer;border:3px solid transparent;transition:all var(--transition);font-size:1rem;display:flex;align-items:center;justify-content:center;}
+.fcolor-btn.fcolor-active{border-color:#fff;box-shadow:0 0 0 2px var(--accent),0 2px 8px rgba(0,0,0,.3);}
+/* Folder song list */
+.folder-song-list{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);overflow:hidden;}
+.fsl-item{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border);transition:background var(--transition);}
+.fsl-item:last-child{border-bottom:none}.fsl-item:hover{background:var(--surface2)}
+.fsl-num{font-size:.73rem;color:var(--text-soft);width:20px;text-align:center;flex-shrink:0;}
+.fsl-color{width:6px;height:36px;border-radius:3px;flex-shrink:0;}
+.fsl-info{flex:1;cursor:pointer}.fsl-title{font-weight:700;font-size:.88rem}.fsl-author{font-size:.75rem;color:var(--text-soft)}
+.fsl-key{font-size:.76rem;font-weight:700;color:var(--gold);margin-right:4px;}
+.fsl-remove{color:var(--text-soft);padding:4px 6px;border-radius:6px;transition:all var(--transition);}
+.fsl-remove:hover{color:var(--fav);background:rgba(232,64,64,.1)}
+
+/* ── AI SEARCH ── */
+@keyframes aiSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.ai-thinking{animation:aiSpin 1.2s linear infinite;display:inline-block}
+
+/* ── HELP ACCORDION ── */
+.help-section{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);margin-bottom:12px;overflow:hidden;}
+.help-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;transition:background var(--transition);}
+.help-header:hover{background:var(--surface2)}
+.help-header-left{display:flex;align-items:center;gap:12px;}
+.help-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.help-title{font-family:'Cinzel',serif;font-size:.88rem;font-weight:600;color:var(--text)}
+.help-arrow{color:var(--text-soft);font-size:.8rem;transition:transform var(--transition);}
+.help-section.open .help-arrow{transform:rotate(180deg)}
+.help-body{display:none;padding:0 20px 20px;border-top:1px solid var(--border);}
+.help-section.open .help-body{display:block}
+.help-step{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;}
+.help-step-num{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.help-step-text{font-size:.86rem;line-height:1.6;color:var(--text)}
+.help-step-text strong{color:var(--accent)}
+.help-tip{background:var(--chord-bg);border-radius:8px;padding:10px 14px;font-size:.82rem;color:var(--chord);margin-top:10px;display:flex;gap:8px;align-items:flex-start;}
+.help-shortcut{display:inline-flex;align-items:center;gap:4px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:.76rem;font-weight:700;color:var(--text-soft);margin:2px;}
+.help-feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+@media(max-width:480px){.help-feature-grid{grid-template-columns:1fr}}
+.help-feature{background:var(--surface2);border-radius:10px;padding:12px;display:flex;gap:10px;align-items:flex-start;}
+.help-feature-icon{font-size:1.2rem;flex-shrink:0}
+.help-feature-title{font-weight:700;font-size:.82rem;margin-bottom:2px}
+.help-feature-desc{font-size:.76rem;color:var(--text-soft);line-height:1.4}
+
+@media print{
+  .topnav,.sidebar,.sidebar-overlay,.pwa-bar,.toast-container,.chord-tip,
+  .detail-actions,.detail-back,.tab-row,.modal-overlay,
+  footer,.hero,.cats,.section-hdr,.song-grid,
+  #view-home,#view-songs,#view-favorites,#view-repertoires,#view-folders,
+  #view-repdetail,#view-folderdetail,#view-community,#view-admin{display:none!important}
+  #view-detail{display:block!important}
+  #dtab-lyrics{display:block!important}
+  #dtab-info{display:none!important}
+  body{background:#fff!important;color:#000!important;font-size:var(--print-font-size,12pt);}
+  .detail-header{border:none!important;padding:0 0 12px 0!important;margin:0 0 16px 0!important;border-bottom:2px solid #000!important;}
+  .detail-title{font-size:1.5rem!important;color:#000!important;}
+  .detail-sub,.detail-tags{color:#555!important;}
+  .lyrics-container{border:none!important;padding:0!important;box-shadow:none!important;}
+  .chord{background:none!important;color:#000!important;font-weight:900!important;padding:0!important;}
+  .stanza{page-break-inside:avoid;margin-bottom:18pt!important;}
+  .stanza-label{font-size:7pt!important;letter-spacing:.2em!important;color:#777!important;}
+  .stanza-label::after{display:none!important}
+  .lyric-line .words{font-size:var(--print-font-size,12pt)!important;}
+  .lyric-line .chords{font-size:calc(var(--print-font-size,12pt) * 0.78)!important;}
+  .no-print-chords .chords{display:none!important;}
+  .no-print-header .detail-header{display:none!important;}
+  @page{margin:1.5cm 2cm;}
+}
+</style>
+</head>
+<body>
+<div id="app">
+<div class="pwa-bar hidden" id="pwaBar">
+  <span>🕊️ Instala <strong>Dulce Refugio</strong> en tu dispositivo para acceso offline</span>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-white btn-sm" id="pwaInstall">Instalar</button>
+    <button class="btn-ghost" style="color:rgba(255,255,255,.7);font-size:.78rem" onclick="document.getElementById('pwaBar').classList.add('hidden')">✕</button>
+  </div>
+</div>
+<nav class="topnav">
+  <button class="nav-btn hamburger" onclick="toggleSidebar()">☰</button>
+  <div class="logo" onclick="showView('home')"><div class="logo-icon">🕊️</div><span>Dulce Refugio</span></div>
+  <div class="search-wrap">
+    <span style="color:var(--text-soft)">🔍</span>
+    <input type="text" id="searchInput" placeholder="Buscar canción, autor, ministerio…" oninput="handleSearch(this.value)" autocomplete="off" onkeydown="searchKeydown(event)">
+    <button id="searchClear" style="color:var(--text-soft);display:none" onclick="clearSearch()">✕</button>
+  </div>
+  <div class="nav-actions">
+    <div class="offline-badge">📡 Offline</div>
+    <button class="nav-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+    <div id="userArea" onclick="openModal('loginModal')" style="cursor:pointer"><div class="user-avatar" id="userAvatar">?</div></div>
+  </div>
+</nav>
+<div class="search-dropdown" id="searchDropdown"></div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+<div class="main-wrap">
+<aside class="sidebar" id="sidebar">
+  <p class="sidebar-title">Principal</p>
+  <div class="nav-item active" data-view="home" onclick="showView('home')"><span class="icon">🏠</span> Inicio</div>
+  <div class="nav-item" data-view="songs" onclick="showView('songs')"><span class="icon">🎵</span> Canciones <span class="cat-badge" id="songCountBadge">0</span></div>
+  <div class="nav-item" data-view="favorites" onclick="showView('favorites')"><span class="icon">♥</span> Favoritos <span class="cat-badge" id="favCountBadge">0</span></div>
+  <div class="nav-item" data-view="repertoires" onclick="showView('repertoires')"><span class="icon">📋</span> Repertorios</div>
+  <div class="sidebar-divider"></div>
+  <p class="sidebar-title">Categorías</p>
+  <div class="nav-item" onclick="filterByCategory('Alabanza')"><span class="icon">🙌</span> Alabanza</div>
+  <div class="nav-item" onclick="filterByCategory('Adoración')"><span class="icon">🙏</span> Adoración</div>
+  <div class="nav-item" onclick="filterByCategory('Himno')"><span class="icon">⛪</span> Himnos</div>
+  <div class="nav-item" onclick="filterByCategory('Niños')"><span class="icon">🌟</span> Niños</div>
+  <div class="nav-item" onclick="filterByCategory('Navidad')"><span class="icon">🎄</span> Navidad</div>
+  <div class="nav-item" onclick="filterByCategory('Instrumental')"><span class="icon">🎸</span> Instrumental</div>
+  <div class="sidebar-divider"></div>
+  <p class="sidebar-title">Organización</p>
+  <div class="nav-item" data-view="folders" onclick="showView('folders')"><span class="icon">📁</span> Carpetas <span class="cat-badge" id="folderCountBadge">0</span></div>
+  <div class="sidebar-divider"></div>
+  <div class="nav-item" data-view="aisearch" onclick="showView('aisearch')"><span class="icon">🤖</span> Buscar con IA</div>
+  <div class="sidebar-divider"></div>
+  <p class="sidebar-title">Comunidad</p>
+  <div class="nav-item" data-view="community" onclick="showView('community')"><span class="icon">💬</span> Comunidad</div>
+  <div class="nav-item" data-view="admin" onclick="showView('admin')"><span class="icon">⚙️</span> Administrar</div>
+  <div class="sidebar-divider"></div>
+  <div class="nav-item" data-view="help" onclick="showView('help')"><span class="icon">📖</span> Manual de Uso</div>
+</aside>
+<main class="content" id="mainContent">
+<!-- HOME -->
+<div class="view active" id="view-home">
+  <div class="hero">
+    <div class="hero-tag">✨ Música Cristiana</div>
+    <h1>Letras & Acordes<br>para adorar a Dios</h1>
+    <p>La plataforma de música cristiana en español para iglesias, líderes de alabanza y músicos.</p>
+    <div class="hero-actions">
+      <button class="btn btn-white" onclick="showView('songs')">🎵 Explorar Canciones</button>
+      <button class="btn btn-outline" onclick="showView('repertoires')">📋 Mis Repertorios</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="val" id="heroStatSongs">0</div><div class="lbl">CANCIONES</div></div>
+      <div class="hero-stat"><div class="val" id="heroStatCats">6</div><div class="lbl">CATEGORÍAS</div></div>
+      <div class="hero-stat"><div class="val" id="heroStatReps">0</div><div class="lbl">REPERTORIOS</div></div>
+      <div class="hero-stat"><div class="val" id="heroStatFavs">0</div><div class="lbl">FAVORITOS</div></div>
+    </div>
+  </div>
+  <div class="cats">
+    <button class="cat-pill active" onclick="filterAndGo('all',this)">Todas</button>
+    <button class="cat-pill" onclick="filterAndGo('Alabanza',this)">🙌 Alabanza</button>
+    <button class="cat-pill" onclick="filterAndGo('Adoración',this)">🙏 Adoración</button>
+    <button class="cat-pill" onclick="filterAndGo('Himno',this)">⛪ Himnos</button>
+    <button class="cat-pill" onclick="filterAndGo('Niños',this)">🌟 Niños</button>
+    <button class="cat-pill" onclick="filterAndGo('Navidad',this)">🎄 Navidad</button>
+  </div>
+  <div class="section-hdr"><h2>🔥 Más Populares</h2><span class="see-all" onclick="showView('songs')">Ver todas →</span></div>
+  <div class="song-grid" id="homePopular"></div>
+  <div class="section-hdr"><h2>🆕 Agregadas Recientemente</h2><span class="see-all" onclick="showView('songs')">Ver todas →</span></div>
+  <div class="song-grid" id="homeRecent"></div>
+</div>
+
+<!-- SONGS -->
+<div class="view" id="view-songs">
+  <div class="section-hdr">
+    <h2>🎵 Canciones</h2>
+    <span id="songsCount" style="font-size:.8rem;color:var(--text-soft)"></span>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
+    <select id="sortSelect" onchange="renderAllSongs()" style="background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-size:.82rem;outline:none;">
+      <option value="popular">Más populares</option>
+      <option value="alpha">A → Z</option>
+      <option value="recent">Más recientes</option>
+      <option value="author">Por autor</option>
+    </select>
+    <label style="display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--text-soft);cursor:pointer">
+      <input type="checkbox" id="compactToggle" onchange="renderAllSongs()"> Vista compacta
+    </label>
+  </div>
+  <div class="cats" id="songsCatRow">
+    <button class="cat-pill active" onclick="filterSongs('all',this)">Todas</button>
+    <button class="cat-pill" onclick="filterSongs('Alabanza',this)">Alabanza</button>
+    <button class="cat-pill" onclick="filterSongs('Adoración',this)">Adoración</button>
+    <button class="cat-pill" onclick="filterSongs('Himno',this)">Himnos</button>
+    <button class="cat-pill" onclick="filterSongs('Niños',this)">Niños</button>
+    <button class="cat-pill" onclick="filterSongs('Navidad',this)">Navidad</button>
+    <button class="cat-pill" onclick="filterSongs('Instrumental',this)">Instrumental</button>
+  </div>
+  <div id="allSongsContainer"></div>
+</div>
+
+<!-- SONG DETAIL -->
+<div class="view" id="view-detail">
+  <div class="detail-back" onclick="backFromDetail()">← Volver</div>
+  <div class="detail-header">
+    <div id="detailMeta"></div>
+    <div class="detail-actions" id="detailActions"></div>
+  </div>
+  <div class="tab-row">
+    <div class="tab-btn active" onclick="setDetailTab('lyrics',this)">🎵 Letra y Acordes</div>
+    <div class="tab-btn" onclick="setDetailTab('info',this)">ℹ️ Información</div>
+  </div>
+  <div class="tab-panel active" id="dtab-lyrics">
+    <div class="lyrics-container font-md" id="lyricsContainer"></div>
+  </div>
+  <div class="tab-panel" id="dtab-info">
+    <div id="songInfoPanel" style="background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:24px"></div>
+  </div>
+</div>
+
+<!-- FAVORITES -->
+<div class="view" id="view-favorites">
+  <div class="section-hdr">
+    <h2>♥ Mis Favoritos</h2>
+    <span id="favCount" style="font-size:.8rem;color:var(--text-soft)"></span>
+  </div>
+  <div class="song-grid" id="favGrid"></div>
+  <div class="empty-state" id="favEmpty" style="display:none">
+    <div class="empty-icon">♡</div>
+    <h3>Sin favoritos aún</h3>
+    <p>Toca el corazón en cualquier canción para guardarla aquí.</p>
+    <button class="btn btn-primary btn-sm" onclick="showView('songs')">Explorar Canciones</button>
+  </div>
+</div>
+
+<!-- REPERTOIRES -->
+<div class="view" id="view-repertoires">
+  <div class="section-hdr">
+    <h2>📋 Mis Repertorios</h2>
+    <button class="btn btn-primary btn-sm" onclick="openNewRepModal()">+ Nuevo</button>
+  </div>
+  <div class="rep-grid" id="repGrid"></div>
+  <div class="empty-state" id="repEmpty" style="display:none">
+    <div class="empty-icon">📋</div>
+    <h3>Sin repertorios aún</h3>
+    <p>Crea listas de canciones para tus servicios y eventos.</p>
+    <button class="btn btn-primary btn-sm" onclick="openNewRepModal()">Crear Primer Repertorio</button>
+  </div>
+</div>
+
+<!-- REP DETAIL -->
+<div class="view" id="view-repdetail">
+  <div class="detail-back" onclick="showView('repertoires')">← Mis Repertorios</div>
+  <div class="rep-detail-header" id="repDetailHeader"></div>
+  <div class="section-hdr">
+    <h2>Canciones del repertorio</h2>
+    <button class="btn btn-primary btn-sm" id="repAddSongBtn">+ Agregar canción</button>
+  </div>
+  <div class="rep-song-list" id="repSongList"></div>
+  <div class="empty-state" id="repSongEmpty" style="display:none">
+    <div class="empty-icon">🎵</div>
+    <h3>Repertorio vacío</h3>
+    <p>Agrega canciones a este repertorio.</p>
+  </div>
+</div>
+
+<!-- FOLDERS -->
+<div class="view" id="view-folders">
+  <div class="section-hdr">
+    <h2>📁 Mis Carpetas</h2>
+    <button class="btn btn-primary btn-sm" onclick="openNewFolderModal()">+ Nueva Carpeta</button>
+  </div>
+  <p style="font-size:.83rem;color:var(--text-soft);margin-bottom:20px;line-height:1.6">
+    Organiza tus canciones en carpetas por grupo, servicio o uso. Ideal para encontrar rápido lo que necesitás antes de cantar.
+  </p>
+  <div class="folder-grid" id="folderGrid"></div>
+  <div class="empty-state" id="folderEmpty" style="display:none">
+    <div class="empty-icon">📁</div>
+    <h3>Sin carpetas aún</h3>
+    <p>Crea una carpeta para organizar tus canciones por grupo o servicio.</p>
+    <button class="btn btn-primary btn-sm" onclick="openNewFolderModal()">Crear Primera Carpeta</button>
+  </div>
+</div>
+
+<!-- FOLDER DETAIL -->
+<div class="view" id="view-folderdetail">
+  <div class="detail-back" onclick="showView('folders')">← Mis Carpetas</div>
+  <div class="rep-detail-header" id="folderDetailHeader"></div>
+  <div class="section-hdr">
+    <h2>Canciones en esta carpeta</h2>
+    <button class="btn btn-primary btn-sm" id="folderAddSongBtn">+ Agregar canción</button>
+  </div>
+  <div id="folderSongList"></div>
+  <div class="empty-state" id="folderSongEmpty" style="display:none">
+    <div class="empty-icon">🎵</div>
+    <h3>Carpeta vacía</h3>
+    <p>Agrega canciones a esta carpeta para acceder rápido a ellas.</p>
+  </div>
+</div>
+
+<!-- AI SEARCH -->
+<div class="view" id="view-aisearch">
+  <div class="section-hdr"><h2>🤖 Buscar Canción con IA</h2></div>
+
+  <!-- BANNER -->
+  <div style="background:linear-gradient(135deg,#7b2fbe,#1a5cb8);border-radius:var(--radius);padding:24px 28px;color:#fff;margin-bottom:22px;position:relative;overflow:hidden">
+    <div style="position:absolute;right:-20px;top:-20px;font-size:6rem;opacity:.08">🤖</div>
+    <div style="font-size:.72rem;letter-spacing:.1em;opacity:.8;margin-bottom:6px">✨ INTELIGENCIA ARTIFICIAL</div>
+    <div style="font-family:'Cinzel',serif;font-size:1.15rem;font-weight:700;margin-bottom:6px">Encontrá cualquier canción cristiana</div>
+    <div style="font-size:.85rem;opacity:.85;max-width:460px">Escribí el nombre de la canción y la IA genera automáticamente la letra completa con acordes de guitarra, lista para usar.</div>
+  </div>
+
+  <!-- SEARCH FORM -->
+  <div style="background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:24px;margin-bottom:18px">
+    <!-- Groq API Key -->
+    <div id="groqKeyPanel" style="margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <label style="font-size:.76rem;font-weight:700;color:var(--text-soft);letter-spacing:.04em">🔑 GEMINI API KEY <span style="color:var(--fav)">*</span></label>
+        <a href="https://aistudio.google.com/app/apikey" target="_blank" style="font-size:.73rem;color:var(--accent);font-weight:700">Obtener gratis →</a>
+      </div>
+      <div style="display:flex;gap:8px">
+        <input type="password" id="groqApiKey" placeholder="AIza…" oninput="saveGroqKey(this.value)"
+          style="flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:9px 11px;color:var(--text);font-size:.86rem;outline:none;transition:border-color .2s"
+          onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+        <button onclick="toggleGroqKeyVis()" style="background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:0 12px;color:var(--text-soft);font-size:.85rem;cursor:pointer" id="groqKeyToggle">👁</button>
+      </div>
+      <p style="font-size:.72rem;color:var(--text-soft);margin-top:5px">Gratis en <strong>aistudio.google.com</strong> · Se guarda solo en tu dispositivo · No se comparte con nadie</p>
+    </div>
+    <div class="field" style="margin-bottom:14px">
+      <label>NOMBRE DE LA CANCIÓN *</label>
+      <input type="text" id="aiSongName" placeholder="Ej: Renuévame, Dios Incomparable, Amazing Grace…"
+        style="font-size:.95rem" onkeydown="if(event.key==='Enter')searchWithAI()">
+    </div>
+    <div class="form-grid" style="margin-bottom:16px">
+      <div class="field">
+        <label>AUTOR O MINISTERIO (OPCIONAL)</label>
+        <input type="text" id="aiSongAuthor" placeholder="Ej: Marcos Witt, Hillsong…"
+          onkeydown="if(event.key==='Enter')searchWithAI()">
+      </div>
+      <div class="field">
+        <label>TONO PREFERIDO (OPCIONAL)</label>
+        <select id="aiSongKey">
+          <option value="">La IA elige el tono más común</option>
+          <option>C</option><option>C#</option><option>D</option><option>D#</option>
+          <option>E</option><option>F</option><option>F#</option><option>G</option>
+          <option>G#</option><option>A</option><option>A#</option><option>B</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <button class="btn btn-primary" id="aiSearchBtn" onclick="searchWithAI()" style="min-width:180px">
+        🤖 Generar con IA
+      </button>
+      <span style="font-size:.78rem;color:var(--text-soft)">Tarda entre 3 y 8 segundos</span>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div id="aiLoading" style="display:none">
+    <div style="background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:40px 24px;text-align:center">
+      <div style="font-size:3rem;margin-bottom:14px;display:inline-block;animation:aiSpin 1.2s linear infinite">🤖</div>
+      <div style="font-family:'Cinzel',serif;font-size:1rem;color:var(--text);margin-bottom:8px">Generando letra y acordes…</div>
+      <div id="aiLoadingMsg" style="font-size:.82rem;color:var(--text-soft);margin-bottom:20px">Buscando en la base de conocimiento</div>
+      <div style="width:100%;max-width:260px;height:4px;background:var(--surface2);border-radius:2px;margin:0 auto;overflow:hidden">
+        <div id="aiProgressBar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#7b2fbe);border-radius:2px;transition:width .5s ease"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="aiResult" style="display:none">
+    <!-- Header result card -->
+    <div style="background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--green);padding:22px;margin-bottom:14px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+        <div>
+          <div style="font-size:.68rem;font-weight:700;color:var(--green);letter-spacing:.1em;margin-bottom:4px">✅ CANCIÓN ENCONTRADA</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:500" id="aiResultTitle"></div>
+          <div style="font-size:.85rem;color:var(--text-soft);margin-top:3px" id="aiResultMeta"></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-success btn-sm" onclick="saveAISong()">✅ Guardar en biblioteca</button>
+          <button class="btn btn-sm" style="background:var(--surface2);color:var(--text);border-radius:40px;font-weight:700" onclick="clearAIResult()">🔄 Nueva búsqueda</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px" id="aiResultTags"></div>
+
+      <!-- Tabs: preview / raw -->
+      <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:16px">
+        <div id="aiTab1" style="padding:8px 16px;font-size:.82rem;font-weight:700;color:var(--accent);border-bottom:2px solid var(--accent);margin-bottom:-2px;cursor:pointer">🎵 Vista previa</div>
+        <div id="aiTab2" style="padding:8px 16px;font-size:.82rem;font-weight:700;color:var(--text-soft);cursor:pointer" onclick="switchAITab()">📝 Texto plano</div>
+      </div>
+
+      <!-- Chord preview -->
+      <div id="aiPreviewPanel" style="max-height:460px;overflow-y:auto">
+        <div class="lyrics-container font-md" id="aiLyricsPreview" style="border:none;padding:0;background:transparent"></div>
+      </div>
+      <!-- Raw text -->
+      <div id="aiRawPanel" style="display:none;max-height:460px;overflow-y:auto">
+        <div style="background:var(--surface2);border-radius:10px;padding:18px;font-family:'Courier New',monospace;font-size:.82rem;line-height:1.9;white-space:pre-wrap;border:1px solid var(--border);color:var(--text)" id="aiResultLetra"></div>
+      </div>
+    </div>
+
+    <!-- Warning -->
+    <div style="background:var(--orange-bg);border:1.5px solid var(--orange);border-radius:10px;padding:14px;font-size:.82rem;color:var(--orange);display:flex;gap:8px;align-items:flex-start;margin-bottom:18px">
+      <span style="font-size:1.1rem;flex-shrink:0">⚠️</span>
+      <div><strong>Recordá verificar los acordes</strong> antes de un servicio. Son generados por IA y pueden ser aproximados. Podés corregirlos en <strong>⚙️ Administrar → ✏️ Editar</strong> después de guardar.</div>
+    </div>
+  </div>
+
+  <!-- ERROR -->
+  <div id="aiError" style="display:none;background:var(--surface);border:1.5px solid var(--fav);border-radius:var(--radius);padding:28px;text-align:center;margin-bottom:18px">
+    <div style="font-size:2.5rem;margin-bottom:10px">😕</div>
+    <div style="font-weight:700;font-size:1rem;margin-bottom:6px" id="aiErrorMsg">No se pudo encontrar la canción</div>
+    <div style="font-size:.83rem;color:var(--text-soft);margin-bottom:16px" id="aiErrorSub">Intentá con otro nombre, verificá la ortografía o agregá el autor.</div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary btn-sm" onclick="clearAIResult()">🔄 Intentar de nuevo</button>
+      <button class="btn btn-sm" style="background:var(--surface2);color:var(--text);border-radius:40px;font-weight:700" onclick="showView('admin')">➕ Agregar manualmente</button>
+    </div>
+  </div>
+
+  <!-- HISTORY -->
+  <div id="aiHistory" style="display:none">
+    <div class="section-hdr"><h2>🕐 Búsquedas recientes</h2><span class="see-all" onclick="clearAIHistory()">Limpiar</span></div>
+    <div id="aiHistoryList"></div>
+  </div>
+
+  <!-- TIPS -->
+  <div style="background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:20px;margin-top:8px">
+    <div style="font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.06em;color:var(--text-soft);margin-bottom:14px">💡 CONSEJOS PARA MEJORES RESULTADOS</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:var(--surface2);border-radius:10px;padding:12px;font-size:.8rem;line-height:1.5"><strong>✅ Bien:</strong> "Renuévame Marcos Witt"</div>
+      <div style="background:var(--surface2);border-radius:10px;padding:12px;font-size:.8rem;line-height:1.5"><strong>✅ Bien:</strong> "Cuán Grande es Él tono G"</div>
+      <div style="background:var(--surface2);border-radius:10px;padding:12px;font-size:.8rem;line-height:1.5"><strong>✅ Bien:</strong> "Este es el Día Hillsong"</div>
+      <div style="background:var(--surface2);border-radius:10px;padding:12px;font-size:.8rem;line-height:1.5"><strong>⚠️ Mejor con autor:</strong> "canción de amor" → demasiado genérico</div>
+    </div>
+  </div>
+</div>
+
+<!-- HELP / MANUAL -->
+<div class="view" id="view-help">
+  <div class="section-hdr"><h2>📖 Manual de Uso</h2></div>
+
+  <div style="background:linear-gradient(135deg,var(--accent),var(--gold));border-radius:var(--radius);padding:28px;color:#fff;margin-bottom:24px;position:relative;overflow:hidden">
+    <div style="font-family:'Cinzel',serif;font-size:1.3rem;font-weight:700;margin-bottom:6px">🕊️ Dulce Refugio</div>
+    <div style="font-size:.88rem;opacity:.85;max-width:480px">Tu plataforma de música cristiana en español. Acá encontrás todo lo que necesitás para adorar, organizar y compartir canciones.</div>
+  </div>
+
+  <!-- ACCORDION SECTIONS -->
+  <div id="helpAccordion"></div>
+</div>
+
+<!-- COMMUNITY -->
+<div class="view" id="view-community">
+  <div class="section-hdr"><h2>💬 Comunidad</h2></div>
+  <div class="comm-tabs">
+    <div class="comm-tab active" onclick="setCommTab('suggest',this)">💡 Sugerencias</div>
+    <div class="comm-tab" onclick="setCommTab('corrections',this)">🔧 Correcciones</div>
+    <div class="comm-tab" onclick="setCommTab('arrangements',this)">🎸 Arreglos</div>
+  </div>
+  <div id="commContent"></div>
+</div>
+
+<!-- ADMIN -->
+<div class="view" id="view-admin">
+  <div class="section-hdr"><h2>⚙️ Panel de Administración</h2></div>
+  <div class="stats-grid" id="adminStats"></div>
+  <div class="tab-row">
+    <div class="tab-btn active" onclick="setAdminTab('add',this)">➕ Agregar</div>
+    <div class="tab-btn" onclick="setAdminTab('list',this)">📋 Canciones</div>
+    <div class="tab-btn" onclick="setAdminTab('suggestions',this)">💡 Sugerencias</div>
+    <div class="tab-btn" onclick="setAdminTab('categories',this)">🏷️ Categorías</div>
+  </div>
+  <div class="tab-panel active" id="atab-add">
+    <div class="admin-form">
+      <h3>➕ Agregar Nueva Canción</h3>
+      <div class="form-grid">
+        <div class="field"><label>TÍTULO *</label><input type="text" id="adTitulo" placeholder="Nombre de la canción"></div>
+        <div class="field"><label>AUTOR *</label><input type="text" id="adAutor" placeholder="Compositor / Artista"></div>
+        <div class="field"><label>MINISTERIO / GRUPO</label><input type="text" id="adMinisterio" placeholder="Ej: Hillsong, CanZion…"></div>
+        <div class="field"><label>CATEGORÍA</label>
+          <select id="adCategoria"><option>Alabanza</option><option>Adoración</option><option>Himno</option><option>Niños</option><option>Navidad</option><option>Instrumental</option></select>
+        </div>
+        <div class="field"><label>TONO ORIGINAL</label>
+          <select id="adTono"><option>C</option><option>C#</option><option>D</option><option>D#</option><option>E</option><option>F</option><option>F#</option><option>G</option><option>G#</option><option>A</option><option>A#</option><option>B</option></select>
+        </div>
+        <div class="field"><label>AÑO (OPCIONAL)</label><input type="number" id="adAno" placeholder="2020" min="1900" max="2099"></div>
+        <div class="field field-full"><label>DESCRIPCIÓN</label><input type="text" id="adDesc" placeholder="Breve descripción de la canción…"></div>
+      </div>
+      <div class="field field-full" style="margin-bottom:10px">
+        <label>LETRA CON ACORDES *</label>
+        <textarea id="adLetra" rows="14" placeholder="Formato con acordes:
+[Verso 1]
+[G]Grande es el Se[D]ñor
+[Em]digno de a[C]labar
+
+[Coro]
+[G]Aleluya al[D] Señor
+
+Usa [ACORDE] antes de la sílaba correspondiente."></textarea>
+        <p style="font-size:.71rem;color:var(--text-soft);margin-top:4px">💡 Coloca [ACORDE] justo antes de la sílaba donde cambia el acorde.</p>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="addSongAdmin()">✅ Agregar Canción</button>
+        <button class="btn btn-ghost" onclick="clearAdminForm()">🗑 Limpiar</button>
+      </div>
+    </div>
+  </div>
+  <div class="tab-panel" id="atab-list">
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <input type="text" id="adminSearch" placeholder="Buscar en la lista…" oninput="renderAdminList()"
+        style="flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:.85rem;outline:none;">
+    </div>
+    <div class="admin-song-list" id="adminSongList"></div>
+  </div>
+  <div class="tab-panel" id="atab-suggestions">
+    <div id="adminSuggestions"></div>
+  </div>
+  <div class="tab-panel" id="atab-categories">
+    <div class="admin-form">
+      <h3>🏷️ Gestionar Categorías</h3>
+      <div id="catList"></div>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <input type="text" id="newCatInput" placeholder="Nueva categoría…"
+          style="flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:.85rem;outline:none;">
+        <button class="btn btn-primary btn-sm" onclick="addCategory()">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div><!-- .main-wrap -->
+<footer style="text-align:center;padding:18px;border-top:1px solid var(--border);font-size:.75rem;color:var(--text-soft);background:var(--surface)">
+  🕊️ <strong>Dulce Refugio</strong> · Música Cristiana en Español · © 2025 · <span style="color:var(--accent);font-weight:700">v2.0 – Sabido del Cielo</span>
+</footer>
+</div><!-- #app -->
+<div class="chord-tip" id="chordTip"></div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="loginModal" onclick="closeModal('loginModal',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">👤 Acceder a tu cuenta</div>
+    <div class="modal-sub">Guarda favoritos y repertorios en todos tus dispositivos.</div>
+    <div class="field" style="margin-bottom:10px"><label>CORREO ELECTRÓNICO</label><input type="email" id="loginEmail" placeholder="tu@correo.com"></div>
+    <div class="field" style="margin-bottom:4px"><label>CONTRASEÑA</label><input type="password" id="loginPass" placeholder="••••••••"></div>
+    <p style="font-size:.75rem;color:var(--accent);text-align:right;margin-bottom:12px;cursor:pointer">¿Olvidaste tu contraseña?</p>
+    <div class="modal-actions" style="margin-top:0">
+      <button class="btn-ghost" onclick="closeModal('loginModal')">Cancelar</button>
+      <button class="btn btn-primary btn-sm" onclick="doLogin()">Entrar</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin:14px 0">
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+      <span style="font-size:.75rem;color:var(--text-soft)">o continúa con</span>
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+    </div>
+    <button class="btn" style="background:#4285f4;color:#fff;width:100%;justify-content:center;border-radius:10px" onclick="doLogin()">🔵 Continuar con Google</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="newRepModal" onclick="closeModal('newRepModal',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">📋 Nuevo Repertorio</div>
+    <div class="modal-sub">Organiza canciones para tu próximo servicio o evento.</div>
+    <div class="field" style="margin-bottom:10px"><label>NOMBRE *</label><input type="text" id="newRepName" placeholder="Ej: Servicio Dominical – 12 Enero"></div>
+    <div class="field"><label>DESCRIPCIÓN (OPCIONAL)</label><textarea id="newRepDesc" rows="2" placeholder="Notas, evento, fecha…"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('newRepModal')">Cancelar</button>
+      <button class="btn btn-primary btn-sm" onclick="createRepertoire()">Crear Repertorio</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="addRepModal" onclick="closeModal('addRepModal',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">📋 Agregar al Repertorio</div>
+    <div class="modal-sub" id="addRepSongTitle"></div>
+    <div id="addRepList" style="max-height:260px;overflow-y:auto;border:1px solid var(--border);border-radius:10px;margin-bottom:6px"></div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('addRepModal')">Cerrar</button>
+      <button class="btn btn-primary btn-sm" onclick="openNewRepModal()">+ Nuevo Repertorio</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="editSongModal" onclick="closeModal('editSongModal',event)">
+  <div class="modal modal-lg" onclick="event.stopPropagation()">
+    <div class="modal-title">✏️ Editar Canción</div>
+    <div class="modal-sub">Modifica los datos de la canción.</div>
+    <input type="hidden" id="editSongId">
+    <div class="form-grid">
+      <div class="field"><label>TÍTULO</label><input type="text" id="editTitulo"></div>
+      <div class="field"><label>AUTOR</label><input type="text" id="editAutor"></div>
+      <div class="field"><label>MINISTERIO</label><input type="text" id="editMinisterio"></div>
+      <div class="field"><label>CATEGORÍA</label>
+        <select id="editCategoria"><option>Alabanza</option><option>Adoración</option><option>Himno</option><option>Niños</option><option>Navidad</option><option>Instrumental</option></select>
+      </div>
+      <div class="field"><label>TONO</label>
+        <select id="editTono"><option>C</option><option>C#</option><option>D</option><option>D#</option><option>E</option><option>F</option><option>F#</option><option>G</option><option>G#</option><option>A</option><option>A#</option><option>B</option></select>
+      </div>
+      <div class="field"><label>AÑO</label><input type="number" id="editAno"></div>
+      <div class="field field-full"><label>LETRA CON ACORDES</label><textarea id="editLetra" rows="12"></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('editSongModal')">Cancelar</button>
+      <button class="btn btn-primary btn-sm" onclick="saveEditSong()">Guardar Cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- New Folder Modal -->
+<div class="modal-overlay" id="newFolderModal" onclick="closeModal('newFolderModal',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">📁 Nueva Carpeta</div>
+    <div class="modal-sub">Agrupa canciones por servicio, grupo musical o cualquier criterio que necesites.</div>
+    <div class="field" style="margin-bottom:10px">
+      <label>NOMBRE *</label>
+      <input type="text" id="newFolderName" placeholder="Ej: Jóvenes, Grupo de Alabanza, Navidad…">
+    </div>
+    <div class="field" style="margin-bottom:10px">
+      <label>DESCRIPCIÓN (OPCIONAL)</label>
+      <textarea id="newFolderDesc" rows="2" placeholder="Para qué es esta carpeta…"></textarea>
+    </div>
+    <div class="field" style="margin-bottom:10px">
+      <label>COLOR / ÍCONO</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px" id="folderColorPicker">
+        <button onclick="selectFolderColor('🔵','#1a5cb8')" data-color="#1a5cb8" class="fcolor-btn fcolor-active" style="background:#1a5cb8">🔵</button>
+        <button onclick="selectFolderColor('🟢','#1a9954')" data-color="#1a9954" class="fcolor-btn" style="background:#1a9954">🟢</button>
+        <button onclick="selectFolderColor('🟠','#e68900')" data-color="#e68900" class="fcolor-btn" style="background:#e68900">🟠</button>
+        <button onclick="selectFolderColor('🔴','#e84040')" data-color="#e84040" class="fcolor-btn" style="background:#e84040">🔴</button>
+        <button onclick="selectFolderColor('🟣','#7b2fbe')" data-color="#7b2fbe" class="fcolor-btn" style="background:#7b2fbe">🟣</button>
+        <button onclick="selectFolderColor('🟡','#c4972a')" data-color="#c4972a" class="fcolor-btn" style="background:#c4972a">🟡</button>
+        <button onclick="selectFolderColor('⚫','#374151')" data-color="#374151" class="fcolor-btn" style="background:#374151">⚫</button>
+      </div>
+    </div>
+    <input type="hidden" id="newFolderColor" value="#1a5cb8">
+    <input type="hidden" id="newFolderEmoji" value="🔵">
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('newFolderModal')">Cancelar</button>
+      <button class="btn btn-primary btn-sm" onclick="createFolder()">Crear Carpeta</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add to Folder Modal -->
+<div class="modal-overlay" id="addFolderSongModal" onclick="closeModal('addFolderSongModal',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">🎵 Agregar a Carpeta</div>
+    <div class="modal-sub" id="addFolderSongTitle"></div>
+    <div id="addFolderSongList" style="max-height:300px;overflow-y:auto;border:1px solid var(--border);border-radius:10px;margin-bottom:6px"></div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('addFolderSongModal')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Song to Folder (from folder detail) Modal -->
+<div class="modal-overlay" id="folderPickSongModal" onclick="closeModal('folderPickSongModal',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">🎵 Agregar Canción</div>
+    <div class="modal-sub" id="folderPickTitle"></div>
+    <div style="padding:8px;border:1px solid var(--border);border-radius:10px;margin-bottom:6px">
+      <input type="text" placeholder="Buscar canción…" oninput="filterFolderPicker(this.value)" style="width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-size:.83rem;outline:none;margin-bottom:6px">
+      <div id="folderPickList" style="max-height:260px;overflow-y:auto"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('folderPickSongModal')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Print Modal -->
+<div class="modal-overlay" id="printModal" onclick="closeModal('printModal',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">🖨️ Opciones de Impresión</div>
+    <div class="modal-sub" id="printModalSub">Configura cómo querés imprimir la canción.</div>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:6px">
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:.88rem">
+        <input type="checkbox" id="printChords" checked> Incluir acordes
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:.88rem">
+        <input type="checkbox" id="printHeader" checked> Incluir encabezado (título, autor, tono)
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:.88rem">
+        <input type="checkbox" id="printTransposed" checked> Usar tono transpuesto actual
+      </label>
+      <div class="field">
+        <label>TAMAÑO DE FUENTE</label>
+        <select id="printFontSize" style="background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:8px;color:var(--text);outline:none;">
+          <option value="10pt">Pequeño (10pt)</option>
+          <option value="12pt" selected>Normal (12pt)</option>
+          <option value="14pt">Grande (14pt)</option>
+          <option value="16pt">Muy grande (16pt)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('printModal')">Cancelar</button>
+      <button class="btn btn-primary btn-sm" onclick="executePrint()">🖨️ Imprimir</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script>
+const NOTES=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const NOTE_ALIAS={Db:'C#',Eb:'D#',Gb:'F#',Ab:'G#',Bb:'A#'};
+function normalizeNote(n){return NOTE_ALIAS[n]||n}
+function transposeNote(n,s){
+  if(!n)return n;
+  const norm=normalizeNote(n);const i=NOTES.indexOf(norm);
+  if(i<0)return n;return NOTES[(i+s+120)%12];
+}
+function transposeChord(chord,s){
+  if(!chord)return chord;
+  const slash=chord.match(/^(.+)\/([A-G][#b]?)$/);
+  if(slash)return transposeChord(slash[1],s)+'/'+transposeNote(slash[2],s);
+  const m=chord.match(/^([A-G][#b]?)(.*)/);
+  if(!m)return chord;
+  return transposeNote(m[1],s)+m[2];
+}
+
+const DB_SONGS=[
+  {id:1,titulo:'Grande es el Señor',autor:'Marcos Witt',ministerio:'CanZion',categoria:'Alabanza',tono:'G',ano:1997,vista:412,desc:'Himno clásico de alabanza en español.',preview:'Grande es el Señor, digno de alabar…',letra:`[Verso 1]\n[G]Grande es el Se[D]ñor\n[Em]digno de a[C]labar\n[G]Grande es el Se[D]ñor\n[Em]digno de ho[C]nrar\n\n[Verso 2]\n[G]Canta corazón\n[D]canta al Creador\n[Em]Canta corazón\n[C]canta con fervor\n\n[Coro]\n[G]Aleluya al[D] Señor\n[Em]Aleluya al[C] Rey\n[G]Aleluya al[D] Señor\n[Em]Aleluya a[C]mén\n\n[Puente]\n[C]Grande[G] es su a[D]mor\n[Em]Grande es su[C] poder\n[G]Grande[D] es el Se[Em]ñor\n[C]digno de bende[G]cir`},
+  {id:2,titulo:'Renuévame',autor:'Marcos Witt',ministerio:'CanZion',categoria:'Adoración',tono:'A',ano:1992,vista:389,desc:'Oración de entrega y renovación espiritual.',preview:'Renuévame, Señor Jesús, ya no quiero ser igual…',letra:`[Verso]\n[A]Renuévame, Se[E]ñor Jesús\n[F#m]Ya no quiero ser i[D]gual\n[A]Renuévame, Se[E]ñor Jesús\n[F#m]Lléname de tu cau[D]dal\n\n[Coro]\n[A]Llena mi a[E]lma\n[F#m]de tu paz y tu a[D]mor\n[A]Renuéva[E]me\n[F#m]Señor[D] Jesús\n\n[Puente]\n[D]Que todo lo que[A] soy\n[E]refleje tu amor\n[D]Que todo lo que[A] hago\n[E]sea para tu honor[A]`},
+  {id:3,titulo:'Cuán Grande es Él',autor:'Stuart Hine',ministerio:'Tradicional',categoria:'Himno',tono:'Bb',ano:1949,vista:356,desc:'Himno basado en el Salmo 8, uno de los más cantados en el mundo cristiano.',preview:'Oh Señor mi Dios, cuando yo con asombro…',letra:`[Verso 1]\n[Bb]Oh Señor mi Dios\ncuan[F]do yo con a[Bb]sombro\ncon[Eb]templo todo lo\nque [Bb]tú hiciste [F]crear\n[Bb]Veo las estre[F]llas\noigo el [Bb]trueno po[Eb]deroso\n[Bb]todo el uni[F]verso\na ti pro[Bb]clama\n\n[Coro]\n¡Cuán [Bb]grande es [Eb]Él!\n¡Cuán [Bb]grande es [F]Él!\n¡Cuán [Bb]grande es [Eb]Él!\n¡Cuán [Bb]grande es [F]Él! [Bb]\n\n[Verso 2]\n[Bb]Y cuando en el [F]bosque\ncontemplo sus [Bb]obras\nlos [Eb]pájaros cantan\ny el [Bb]viento so[F]pla\n[Bb]Cuándo veo desde las [F]montañas\nsu [Bb]grandeza\nmi al[Eb]ma canta\na mi [Bb]Salvador [F]y [Bb]Rey`},
+  {id:4,titulo:'Todopoderoso',autor:'Redimi2',ministerio:'Redimi2',categoria:'Alabanza',tono:'E',ano:2016,vista:278,desc:'Canción de alabanza contemporánea.',preview:'Todopoderoso, tú reinas en lo alto…',letra:`[Verso]\n[E]Todopoderoso\n[B]Tú reinas en lo al[C#m]to\n[A]Santo y glorioso\n[E]Digno de a[B]labar\n\n[Pre-Coro]\n[C#m]Ante ti me pos[A]tro\n[E]En tu presencia es[B]toy\n[C#m]Tú eres todo para[A] mí\n[E]Mi Rey y mi Se[B]ñor\n\n[Coro]\n[E]Te adora[B]mos\n[C#m]Te glori[A]ficamos\n[E]Todopoderoso\n[B]Rey de re[E]yes eres tú\n[A]Eres fiel[E]\n[B]Eres bueno[C#m]\n[A]Tu misericordia\nes [E]nueva cada [B]día[E]`},
+  {id:5,titulo:'Cristo Vive',autor:'Danilo Montero',ministerio:'Danilo Montero',categoria:'Alabanza',tono:'D',ano:2003,vista:245,desc:'Proclamación de la resurrección de Cristo.',preview:'Cristo vive, Cristo vive, Cristo reina hoy…',letra:`[Verso]\n[D]Ya no está en la tumba\n[A]La piedra fue quitada\n[G]Resucitó Jesús\n[D]Aleluya\n\n[D]Los ángeles proclaman\n[A]La muerte fue vencida\n[G]Él vive para siempre\n[D]Aleluya\n\n[Coro]\n[D]Cristo vive\n[A]Cristo vive\n[G]Cristo reina hoy\n[D]Aleluya\n[D]Cristo vive\n[A]Cristo vive\n[G]Vive para siempre\n[D]Aleluya\n\n[Puente]\n[G]Él es el Señor\n[D]Él es el Señor\n[A]Resucitó de entre los muertos\n[G]y Él es el Señor[D]`},
+  {id:6,titulo:'El Rey Jesús',autor:'Generación 12',ministerio:'Generación 12',categoria:'Adoración',tono:'C',ano:2018,vista:198,desc:'Adoración contemporánea que proclama el señorío de Cristo.',preview:'Rey Jesús, tú eres fiel, tú eres bueno…',letra:`[Verso]\n[C]Rey Jesús\n[G]Tú eres fiel\n[Am]Tú eres bueno\n[F]Tú eres Dios\n\n[Pre-Coro]\n[C]En tus manos está\n[G]todo lo que soy\n[Am]Y en tu nombre yo\n[F]confío hoy\n\n[Coro]\n[C]El Rey Je[G]sús\n[Am]reina pa[F]ra siempre\n[C]El Rey Je[G]sús\n[Am]es el vence[F]dor\n[C]No hay otro [G]nombre\n[Am]bajo el cielo y [F]tierra\n[C]El Rey Je[G]sús\n[Am]reina hoy [F]aquí[C]`},
+  {id:7,titulo:'Dios Incomparable',autor:'Generación 12',ministerio:'Generación 12',categoria:'Adoración',tono:'G',ano:2015,vista:187,desc:'Adoración que exalta la grandeza incomparable de Dios.',preview:'Dios incomparable, eterno y sin igual…',letra:`[Verso]\n[G]Dios incompa[D]rable\n[Em]Eterno y sin i[C]gual\n[G]Tu nombre sobre[D] todo\n[Em]Rey del cielo y la[C] tierra\n\n[Coro]\n[G]A ti solo[D] adoramos\n[Em]A ti solo[C] exaltamos\n[G]Digno eres de[D] toda la gloria\n[Em]Solo tú eres[C] Dios\n\n[Puente]\n[C]¡Santo, Santo, [G]Santo!\n[D]Es el Señor de los [Em]ejércitos\n[C]Llena está la [G]tierra\n[D]De su gloria y po[G]der`},
+  {id:8,titulo:'Jesús es el Centro',autor:'Israel Houghton',ministerio:'New Breed',categoria:'Alabanza',tono:'F',ano:2013,vista:165,desc:'Declaración de que Cristo es el centro de todo.',preview:'Jesús, tú eres el centro de mi vida…',letra:`[Verso]\n[F]Jesús tú eres el[Bb]centro\n[F]de mi vida y mi can[C]ción\n[F]Tú eres el pri[Bb]mero\n[C]el principio y el fi[F]nal\n\n[Coro]\n[Bb]Nada hay más im[F]portante\n[C]que tenerte en este[Dm]lugar\n[Bb]Jesús tú eres el[F]centro\n[C]de todo lo que[F] soy\n\n[Puente]\n[Dm]No hay nadie como[Bb]tú\n[F]No hay nadie como[C]tú\n[Dm]Jesús no hay na[Bb]die\n[F]como tú[C] Señor[F]`},
+  {id:9,titulo:'Maravilloso Dios',autor:'Chris Tomlin',ministerio:'Passion',categoria:'Adoración',tono:'D',ano:2010,vista:154,desc:'Himno contemporáneo que alaba la grandeza de Dios.',preview:'Maravilloso Dios, tu amor no tiene fin…',letra:`[Verso]\n[D]Maravilloso Dios\n[A]Tu amor no tiene fin\n[Bm]Desde la eternidad\n[G]Hasta el fin del tiempo\n\n[Coro]\n[D]Maravilloso[A] eres\n[Bm]Admirable[G] eres\n[D]Santo[A] eres\n[Bm]Digno[G] de alabar\n\n[Puente]\n[G]Al Cordero que fue inmolado\n[D]Honor y gloria y poder\n[A]Al que vive para siempre\n[Bm]A Él sea toda la honra[G]`},
+  {id:10,titulo:'Eres Todo Poderoso',autor:'Ingrid Rosario',ministerio:'Independiente',categoria:'Alabanza',tono:'Bb',ano:2008,vista:143,desc:'Poderosa canción de la cantautora puertorriqueña.',preview:'Eres todopoderoso, grande y maravilloso…',letra:`[Verso]\n[Bb]Eres todo pode[F]roso\n[Gm]Grande y maravi[Eb]lloso\n[Bb]No hay otro Dios como[F]tú\n[Gm]Digno de todo mi[Eb] amor\n\n[Coro]\n[Bb]Te alabo, te ado[F]ro\n[Gm]Me postro ante[Eb]ti\n[Bb]Mi vida te o[F]frendo\n[Gm]Solo quiero vi[Eb]vir\nPara[Bb] amarte Señor\nPara[F] exaltarte Rey\n[Gm]Solo para[Eb] ti[Bb]`},
+  {id:11,titulo:'Sublime Gracia',autor:'John Newton',ministerio:'Tradicional',categoria:'Himno',tono:'G',ano:1779,vista:298,desc:'El himno cristiano más reconocido de la historia — Amazing Grace.',preview:'Sublime gracia del Señor que a mí pecador salvó…',letra:`[Verso 1]\n[G]Sublime gra[G7]cia del Se[C]ñor\nque a mí peca[G]dor sal[Em]vó\n[G]fui ciego mas hoy [D]veo yo\nper[G]dido y él me ha[D]lló[G]\n\n[Verso 2]\n[G]Su gracia me en[G7]señó a te[C]mer\nmis [G]dudas ahuyent[Em]ó\n[G]¡Oh, cuán precioso fue a mis [D]ojos\ncuando [G]él me trans[D]formó[G]\n\n[Verso 3]\n[G]Y cuando en Sión por [G7]siglos mil\nbri[C]llando esté cual [G]sol\n[Em]yo cantaré por[G] siempre allí\nsu [D]amor que me sal[G]vó`},
+  {id:12,titulo:'Tu Fidelidad',autor:'Lilly Goodman',ministerio:'Independiente',categoria:'Adoración',tono:'E',ano:2012,vista:210,desc:'Balada de adoración que exalta la fidelidad de Dios.',preview:'Tu fidelidad es grande, tu fidelidad es grande…',letra:`[Verso]\n[E]Tu fidelidad[C#m]es grande\n[A]Tu fidelidad[B]es grande\n[E]Grande es tu fideli[A]dad[B]\n\n[Coro]\n[A]Tú me amas con a[E]mor eterno\n[B]Contigo todo lo[C#m]tengo\n[A]Tu misericordia[B]es nueva\n[E]Cada mañana Se[A]ñor[E]\n\n[Puente]\n[C#m]Grande es tu amor hacia[A] mí\n[E]Grande es tu gracia en mi[B] vida\n[C#m]Tu nombre yo exa[A]ltaré\n[E]Por siempre te adora[B]ré[E]`},
+  {id:13,titulo:'Nada te Turbe',autor:'Jaime Murrell',ministerio:'Independiente',categoria:'Adoración',tono:'Am',ano:2001,vista:132,desc:'Basada en el poema de Santa Teresa de Ávila.',preview:'Nada te turbe, nada te espante, quien a Dios tiene nada le falta…',letra:`[Verso]\n[Am]Nada te turbe\n[F]nada te espante\n[C]quien a Dios tiene\n[G]nada le falta\n\n[Coro]\n[Am]Solo Dios basta\n[F]Solo Dios basta\n[C]Solo Dios [G]basta\n[Am]para mi vida\n\n[Puente]\n[F]Él es mi todo\n[C]Él es mi paz\n[G]Él es el camino\n[Am]la verdad y la luz`},
+  {id:14,titulo:'Digno es el Cordero',autor:'Hillsong',ministerio:'Hillsong',categoria:'Adoración',tono:'D',ano:2002,vista:176,desc:'Himno de adoración al Cordero de Dios.',preview:'Gracias por la cruz Señor, gracias por el precio que pagaste…',letra:`[Verso]\n[D]Gracias por la cruz Se[A]ñor\n[Bm]gracias por el precio que pa[G]gaste\n[D]Llevando la maldad y el do[A]lor\n[Bm]cargando con mi culpa en ese mad[G]ero\n\n[Coro]\n[D]Digno es el Cor[A]dero\n[Bm]que fue inmola[G]do\n[D]digno es el Rey\n[A]digno es el Se[G]ñor\n[D]Por siempre rei[A]nará\n[Bm]la iglesia can[G]tará\n[D]Digno, digno[A] es el Se[G]ñor[D]`},
+  {id:15,titulo:'Hosanna',autor:'Brooke Fraser',ministerio:'Hillsong',categoria:'Alabanza',tono:'E',ano:2006,vista:159,desc:'Canción de proclamación y adoración.',preview:'Veo el rey de gloria, viene a nosotros…',letra:`[Verso]\n[E]Veo el rey de glo[C#m]ria\nviene a noso[A]tros\n[E]Caminando sobre[C#m] las aguas\nen la oscu[A]ridad\n\n[Pre-Coro]\n[A]Sana mi corazón\n[E]y haz que sea nuevo\n[A]Abre mis ojos[B]al mundo para ti\n\n[Coro]\n[E]Hosanna [C#m]Hosanna\n[A]Hosanna en las al[B]turas\n[E]Hosanna [C#m]Hosanna\n[A]Hosanna en las al[B]turas[E]`}
+];
+
+let categories=['Alabanza','Adoración','Himno','Niños','Navidad','Instrumental'];
+function saveCategories(){localStorage.setItem('dr_categories',JSON.stringify(categories))}
+(()=>{const c=localStorage.getItem('dr_categories');if(c)try{categories=JSON.parse(c)}catch(e){}})();
+
+const savedSongs=JSON.parse(localStorage.getItem('dr_added_songs')||'[]');
+let state={
+  songs:[...DB_SONGS,...savedSongs],
+  favorites:JSON.parse(localStorage.getItem('dr_favorites')||'[]'),
+  repertoires:JSON.parse(localStorage.getItem('dr_repertoires')||'[]'),
+  folders:JSON.parse(localStorage.getItem('dr_folders')||'[]'),
+  suggestions:JSON.parse(localStorage.getItem('dr_suggestions')||'null')||[
+    {id:1,titulo:"Dios de lo Imposible",autor:"Christine D'Clario",estado:'pending',fecha:'2024-01-10',votos:4,miVoto:false,comentario:'Una canción muy inspiradora'},
+    {id:2,titulo:'Soy Libre',autor:'Jesús Adrián Romero',estado:'approved',fecha:'2024-01-08',votos:12,miVoto:false,comentario:'Perfecta para servicios de alabanza'},
+    {id:3,titulo:'Buen Dios',autor:'Miel San Marcos',estado:'pending',fecha:'2024-01-12',votos:7,miVoto:false,comentario:''}
+  ],
+  currentView:'home',prevView:'songs',
+  currentSong:null,currentRep:null,currentFolder:null,
+  transpose:0,fontSize:'md',showChords:true,
+  filterCat:'all',searchQ:'',addRepSongId:null,
+  currentUser:null,commTab:'suggest',dragSrc:null
+};
+
+function saveState(){
+  localStorage.setItem('dr_favorites',JSON.stringify(state.favorites));
+  localStorage.setItem('dr_repertoires',JSON.stringify(state.repertoires));
+  localStorage.setItem('dr_folders',JSON.stringify(state.folders));
+  localStorage.setItem('dr_suggestions',JSON.stringify(state.suggestions));
+  const added=state.songs.filter(s=>!DB_SONGS.find(d=>d.id===s.id));
+  localStorage.setItem('dr_added_songs',JSON.stringify(added));
+  updateBadges();
+}
+function updateBadges(){
+  document.getElementById('songCountBadge').textContent=state.songs.length;
+  document.getElementById('favCountBadge').textContent=state.favorites.length;
+  document.getElementById('folderCountBadge').textContent=state.folders.length;
+  document.getElementById('heroStatSongs').textContent=state.songs.length;
+  document.getElementById('heroStatReps').textContent=state.repertoires.length;
+  document.getElementById('heroStatFavs').textContent=state.favorites.length;
+}
+
+/* ── VIEWS ── */
+function showView(v){
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-item[data-view]').forEach(el=>el.classList.remove('active'));
+  const nav=document.querySelector(`[data-view="${v}"]`);if(nav)nav.classList.add('active');
+  if(!['detail','repdetail','folderdetail'].includes(v))state.prevView=state.currentView;
+  state.currentView=v;
+  const el=document.getElementById('view-'+v);if(el)el.classList.add('active');
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+  ({home:renderHome,songs:renderAllSongs,favorites:renderFavorites,
+    repertoires:renderRepertoires,folders:renderFolders,
+    aisearch:renderAISearch,help:renderHelp,
+    community:renderCommunity,admin:renderAdmin}[v]||function(){})();
+}
+function backFromDetail(){showView(state.prevView)}
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+
+/* ── SEARCH ── */
+function handleSearch(q){
+  state.searchQ=q;
+  document.getElementById('searchClear').style.display=q?'block':'none';
+  if(!q){document.getElementById('searchDropdown').classList.remove('open');return;}
+  const results=state.songs.filter(s=>
+    s.titulo.toLowerCase().includes(q.toLowerCase())||
+    s.autor.toLowerCase().includes(q.toLowerCase())||
+    s.ministerio.toLowerCase().includes(q.toLowerCase())||
+    s.letra.toLowerCase().includes(q.toLowerCase())
+  ).slice(0,8);
+  const dd=document.getElementById('searchDropdown');dd.classList.add('open');
+  if(!results.length){dd.innerHTML=`<div class="search-nores">Sin resultados para "<strong>${q}</strong>"</div>`;return;}
+  dd.innerHTML=results.map(s=>`<div class="search-result" onclick="openSong(${s.id});clearSearch()">
+    <div class="sr-icon">🎵</div>
+    <div><div class="sr-title">${hl(s.titulo,q)}</div><div class="sr-sub">${s.autor} · ${s.ministerio}</div></div>
+    <span class="tag tag-key" style="margin-left:auto">♪${s.tono}</span>
+  </div>`).join('');
+}
+function hl(t,q){const i=t.toLowerCase().indexOf(q.toLowerCase());if(i<0)return t;return t.slice(0,i)+`<mark style="background:var(--chord-bg);color:var(--chord);border-radius:3px">${t.slice(i,i+q.length)}</mark>`+t.slice(i+q.length);}
+function clearSearch(){document.getElementById('searchInput').value='';state.searchQ='';document.getElementById('searchClear').style.display='none';document.getElementById('searchDropdown').classList.remove('open');}
+function searchKeydown(e){if(e.key==='Escape')clearSearch();if(e.key==='Enter'&&state.searchQ){showView('songs');document.getElementById('searchDropdown').classList.remove('open');}}
+document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap')&&!e.target.closest('#searchDropdown'))document.getElementById('searchDropdown').classList.remove('open');});
+
+/* ── HOME ── */
+function renderHome(){
+  updateBadges();
+  renderGrid('homePopular',[...state.songs].sort((a,b)=>b.vista-a.vista).slice(0,4));
+  renderGrid('homeRecent',[...state.songs].sort((a,b)=>b.id-a.id).slice(0,3));
+}
+function filterAndGo(cat,btn){
+  state.filterCat=cat;showView('songs');
+  setTimeout(()=>{
+    document.querySelectorAll('#songsCatRow .cat-pill').forEach(p=>p.classList.remove('active'));
+    if(cat==='all')document.querySelector('#songsCatRow .cat-pill')?.classList.add('active');
+    else [...document.querySelectorAll('#songsCatRow .cat-pill')].find(p=>p.textContent.trim().includes(cat))?.classList.add('active');
+  },50);
+}
+function filterByCategory(cat){filterAndGo(cat,null);}
+
+/* ── CARDS ── */
+function songCard(s){
+  const isFav=state.favorites.includes(s.id);
+  const isNew=!DB_SONGS.find(d=>d.id===s.id);
+  return`<div class="song-card" onclick="openSong(${s.id})">
+    <div class="card-top">
+      <div class="card-title">${s.titulo}</div>
+      <button class="fav-btn${isFav?' active':''}" onclick="event.stopPropagation();toggleFav(${s.id},this)"></button>
+    </div>
+    <div class="card-author"><strong>${s.autor}</strong> · ${s.ministerio}</div>
+    <div class="card-meta">
+      <span class="tag tag-cat">${s.categoria}</span>
+      <span class="tag tag-key">♪ ${s.tono}</span>
+      ${isNew?'<span class="tag tag-new">NUEVO</span>':''}
+      <span class="tag tag-min">👁 ${s.vista}</span>
+    </div>
+    <div class="card-preview">${s.preview||''}</div>
+  </div>`;
+}
+function songRow(s,i){
+  const isFav=state.favorites.includes(s.id);
+  return`<div class="slc-item" onclick="openSong(${s.id})">
+    <span class="slc-num">${i+1}</span>
+    <div class="slc-info"><div class="slc-title">${s.titulo}</div><div class="slc-author">${s.autor} · ${s.ministerio}</div></div>
+    <div class="slc-right">
+      <span class="tag tag-cat" style="display:none;display:flex">${s.categoria}</span>
+      <span class="tag tag-key">♪${s.tono}</span>
+      <button class="fav-btn${isFav?' active':''}" onclick="event.stopPropagation();toggleFav(${s.id},this)"></button>
+    </div>
+  </div>`;
+}
+function renderGrid(id,songs){
+  const el=document.getElementById(id);if(!el)return;
+  el.innerHTML=songs.length?songs.map(s=>songCard(s)).join(''):`<p style="color:var(--text-soft);grid-column:1/-1;text-align:center;padding:36px 0">Sin canciones.</p>`;
+}
+
+/* ── ALL SONGS ── */
+function renderAllSongs(){
+  let songs=[...state.songs];
+  if(state.filterCat!=='all')songs=songs.filter(s=>s.categoria===state.filterCat);
+  if(state.searchQ){const q=state.searchQ.toLowerCase();songs=songs.filter(s=>s.titulo.toLowerCase().includes(q)||s.autor.toLowerCase().includes(q)||s.ministerio.toLowerCase().includes(q)||s.letra.toLowerCase().includes(q));}
+  const sort=document.getElementById('sortSelect')?.value||'popular';
+  if(sort==='alpha')songs.sort((a,b)=>a.titulo.localeCompare(b.titulo));
+  else if(sort==='recent')songs.sort((a,b)=>b.id-a.id);
+  else if(sort==='author')songs.sort((a,b)=>a.autor.localeCompare(b.autor));
+  else songs.sort((a,b)=>b.vista-a.vista);
+  document.getElementById('songsCount').textContent=`${songs.length} canción${songs.length!==1?'es':''}`;
+  const compact=document.getElementById('compactToggle')?.checked;
+  const cont=document.getElementById('allSongsContainer');
+  if(!songs.length){cont.innerHTML='<div class="empty-state"><div class="empty-icon">🎵</div><h3>Sin resultados</h3><p>Intenta otra búsqueda o categoría.</p></div>';return;}
+  cont.innerHTML=compact?`<div class="song-list-compact">${songs.map((s,i)=>songRow(s,i)).join('')}</div>`:`<div class="song-grid">${songs.map(s=>songCard(s)).join('')}</div>`;
+}
+function filterSongs(cat,btn){
+  state.filterCat=cat;
+  document.querySelectorAll('#songsCatRow .cat-pill').forEach(p=>p.classList.remove('active'));
+  btn?.classList.add('active');renderAllSongs();
+}
+
+/* ── SONG DETAIL ── */
+function openSong(id){
+  const s=state.songs.find(x=>x.id===id);if(!s)return;
+  s.vista=(s.vista||0)+1;saveState();
+  state.currentSong=s;state.transpose=0;
+  showView('detail');
+  renderDetailMeta();renderLyrics();renderSongInfo();
+  document.querySelectorAll('#view-detail .tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#view-detail .tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector('#view-detail .tab-btn')?.classList.add('active');
+  document.getElementById('dtab-lyrics')?.classList.add('active');
+}
+function renderDetailMeta(){
+  const s=state.currentSong;const isFav=state.favorites.includes(s.id);
+  const key=transposeNote(s.tono,state.transpose)||s.tono;
+  document.getElementById('detailMeta').innerHTML=`
+    <div class="detail-title">${s.titulo}</div>
+    <div class="detail-sub"><strong>${s.autor}</strong> · ${s.ministerio}${s.ano?` · ${s.ano}`:''}</div>
+    <div class="detail-tags">
+      <span class="tag tag-cat">${s.categoria}</span>
+      <span class="tag tag-key">♪ Tono original: ${s.tono}</span>
+      <span class="tag tag-min">👁 ${s.vista} vistas</span>
+    </div>`;
+  document.getElementById('detailActions').innerHTML=`
+    <div class="transpose-bar">
+      <button class="t-btn" onclick="changeTranspose(-1)">−</button>
+      <div style="text-align:center">
+        <div style="font-size:.58rem;color:var(--text-soft);letter-spacing:.08em">${state.transpose===0?'TONO':'TRANSPONER'}</div>
+        <div class="key-display" id="keyDisplay">${key}${state.transpose!==0?` (${state.transpose>0?'+':''}${state.transpose})`:''}</div>
+      </div>
+      <button class="t-btn" onclick="changeTranspose(+1)">+</button>
+    </div>
+    ${state.transpose!==0?`<button class="btn btn-sm" style="background:var(--surface2);color:var(--text-soft);border-radius:40px;font-weight:700" onclick="resetTranspose()">↺ Reset</button>`:''}
+    <div class="font-controls">
+      <button class="fc-btn${state.fontSize==='sm'?' active':''}" style="font-size:.7rem" onclick="setFont('sm',this)">A</button>
+      <button class="fc-btn${state.fontSize==='md'?' active':''}" style="font-size:.85rem" onclick="setFont('md',this)">A</button>
+      <button class="fc-btn${state.fontSize==='lg'?' active':''}" style="font-size:1rem" onclick="setFont('lg',this)">A</button>
+      <button class="fc-btn${state.fontSize==='xl'?' active':''}" style="font-size:1.15rem" onclick="setFont('xl',this)">A</button>
+    </div>
+    <button class="btn btn-sm" style="background:var(--chord-bg);color:var(--chord);border-radius:40px;font-weight:700" onclick="toggleChords(this)">${state.showChords?'🎸 Acordes':'📜 Sin acordes'}</button>
+    <button class="btn btn-sm" style="background:${isFav?'var(--fav)':'var(--surface2)'};color:${isFav?'#fff':'var(--text)'};border-radius:40px;font-weight:700" onclick="toggleFavDetail(${s.id})">${isFav?'♥ Guardado':'♡ Favorito'}</button>
+    <div class="share-dropdown">
+      <button class="btn btn-sm" style="background:var(--surface2);color:var(--text);border-radius:40px;font-weight:700" onclick="toggleShareMenu()">🔗 Compartir ▾</button>
+      <div class="share-menu" id="shareMenu">
+        <div class="share-item" onclick="shareWA()"><span class="si-icon">💬</span> WhatsApp</div>
+        <div class="share-item" onclick="shareEmail()"><span class="si-icon">📧</span> Correo</div>
+        <div class="share-item" onclick="copyLink()"><span class="si-icon">🔗</span> Copiar enlace</div>
+        <div class="share-item" onclick="openPrintModal()"><span class="si-icon">🖨️</span> Imprimir</div>
+        <div class="share-item" onclick="downloadTxt()"><span class="si-icon">📥</span> Descargar .txt</div>
+      </div>
+    </div>
+    <button class="btn btn-sm" style="background:var(--surface2);color:var(--text);border-radius:40px;font-weight:700" onclick="openAddRep(${s.id})">📋 Agregar a lista</button>
+    <button class="btn btn-sm" style="background:var(--surface2);color:var(--text);border-radius:40px;font-weight:700" onclick="openAddToFolder(${s.id})">📁 Agregar a carpeta</button>`;
+}
+function setDetailTab(tab,btn){
+  document.querySelectorAll('#view-detail .tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#view-detail .tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');document.getElementById('dtab-'+tab)?.classList.add('active');
+}
+function renderSongInfo(){
+  const s=state.currentSong;
+  const currentKey=transposeNote(s.tono,state.transpose)||s.tono;
+  document.getElementById('songInfoPanel').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px">
+      <div><div style="font-size:.7rem;font-weight:700;color:var(--text-soft);letter-spacing:.08em;margin-bottom:4px">TÍTULO</div><div style="font-family:'Playfair Display',serif;font-size:1.05rem">${s.titulo}</div></div>
+      <div><div style="font-size:.7rem;font-weight:700;color:var(--text-soft);letter-spacing:.08em;margin-bottom:4px">AUTOR</div><div style="font-weight:700;color:var(--accent)">${s.autor}</div></div>
+      <div><div style="font-size:.7rem;font-weight:700;color:var(--text-soft);letter-spacing:.08em;margin-bottom:4px">MINISTERIO</div><div>${s.ministerio}</div></div>
+      <div><div style="font-size:.7rem;font-weight:700;color:var(--text-soft);letter-spacing:.08em;margin-bottom:4px">CATEGORÍA</div><span class="tag tag-cat">${s.categoria}</span></div>
+      <div><div style="font-size:.7rem;font-weight:700;color:var(--text-soft);letter-spacing:.08em;margin-bottom:4px">TONO ORIGINAL</div><span class="tag tag-key">♪ ${s.tono}</span></div>
+      ${s.ano?`<div><div style="font-size:.7rem;font-weight:700;color:var(--text-soft);letter-spacing:.08em;margin-bottom:4px">AÑO</div><div>${s.ano}</div></div>`:''}
+      ${s.desc?`<div style="grid-column:1/-1"><div style="font-size:.7rem;font-weight:700;color:var(--text-soft);letter-spacing:.08em;margin-bottom:6px">DESCRIPCIÓN</div><p style="font-size:.86rem;line-height:1.7;color:var(--text-soft)">${s.desc}</p></div>`:''}
+    </div>
+    <div style="padding-top:16px;border-top:1px solid var(--border)">
+      <div style="font-size:.7rem;font-weight:700;color:var(--text-soft);letter-spacing:.08em;margin-bottom:10px">CAMBIAR TONO</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        ${NOTES.map(n=>`<button onclick="setAbsoluteKey('${n}')" style="padding:5px 13px;border-radius:20px;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;background:${n===currentKey?'var(--accent)':'var(--surface2)'};color:${n===currentKey?'#fff':'var(--text-soft)'};border:none">${n}</button>`).join('')}
+      </div>
+    </div>`;
+}
+function setAbsoluteKey(note){
+  const base=normalizeNote(state.currentSong.tono);
+  const fi=NOTES.indexOf(base);const ti=NOTES.indexOf(note);
+  let diff=(ti-fi+12)%12;if(diff>6)diff-=12;
+  state.transpose=diff;renderDetailMeta();renderLyrics();renderSongInfo();
+}
+
+/* ── LYRICS ── */
+function renderLyrics(){
+  const s=state.currentSong;
+  const c=document.getElementById('lyricsContainer');
+  c.className=`lyrics-container font-${state.fontSize}${state.showChords?'':' no-chords-mode'}`;
+  const lines=s.letra.split('\n');
+  let html='';let inStanza=false;
+  lines.forEach(raw=>{
+    const line=raw.trimEnd();
+    const isLabel=/^\[(?![A-G][#b]?(?:m|maj|min|sus|add|dim|aug|7|9|11|13|\/)?[0-9]*)[\w\s\d]+\]$/.test(line.trim());
+    if(isLabel){
+      if(inStanza)html+='</div>';
+      html+=`<div class="stanza"><div class="stanza-label">${line.replace(/[\[\]]/g,'')}</div>`;
+      inStanza=true;return;
+    }
+    if(!inStanza){html+='<div class="stanza">';inStanza=true;}
+    const p=parseLine(line);
+    html+=`<div class="lyric-line"><div class="chords">${p.chords}</div><div class="words">${p.words||'&nbsp;'}</div></div>`;
+  });
+  if(inStanza)html+='</div>';
+  c.innerHTML=html;
+  c.querySelectorAll('.chord').forEach(el=>{
+    el.addEventListener('mouseenter',showChordTip);
+    el.addEventListener('mouseleave',hideChordTip);
+  });
+}
+function parseLine(line){
+  const rx=/\[([A-G][#b]?(?:m|maj|min|sus|add|dim|aug|7|9|11|13|m7|maj7|\/[A-G][#b]?)?(?:\d)?)\]/g;
+  let chordsHtml='';let wordsText='';let lastIndex=0;let pending='';let m;
+  const parts=[];let rx2=new RegExp(rx.source,'g');
+  while((m=rx2.exec(line))!==null){
+    if(m.index>lastIndex)parts.push({t:'text',v:line.slice(lastIndex,m.index)});
+    parts.push({t:'chord',v:m[1]});lastIndex=rx2.lastIndex;
+  }
+  if(lastIndex<line.length)parts.push({t:'text',v:line.slice(lastIndex)});
+  parts.forEach(p=>{
+    if(p.t==='chord'){
+      if(pending)chordsHtml+=`<span class="chord" data-chord="${pending}">${pending}</span>`;
+      pending=transposeChord(p.v,state.transpose);
+    } else {
+      wordsText+=p.v;
+      if(pending){chordsHtml+=`<span class="chord" data-chord="${pending}">${pending}</span>`;pending='';}
+    }
+  });
+  if(pending)chordsHtml+=`<span class="chord" data-chord="${pending}">${pending}</span>`;
+  return{chords:chordsHtml,words:wordsText};
+}
+const SHAPES={C:'032010',D:'xx0232',E:'022100',F:'133211',G:'320003',A:'x02220',B:'x24442'};
+function showChordTip(e){
+  const ch=e.currentTarget.dataset.chord;
+  const base=ch.replace(/m(?!aj)|maj|min|sus|add|dim|aug|[79]|11|13|m7|maj7|\/.*$/g,'');
+  const norm=normalizeNote(base);
+  const tip=document.getElementById('chordTip');
+  tip.textContent=ch+(SHAPES[norm]?' · '+SHAPES[norm]:'');
+  const r=e.currentTarget.getBoundingClientRect();
+  tip.style.left=(r.left+window.scrollX)+'px';tip.style.top=(r.bottom+window.scrollY+6)+'px';
+  tip.classList.add('show');
+}
+function hideChordTip(){document.getElementById('chordTip').classList.remove('show')}
+function changeTranspose(d){state.transpose+=d;renderDetailMeta();renderLyrics();}
+function resetTranspose(){state.transpose=0;renderDetailMeta();renderLyrics();renderSongInfo();}
+function setFont(sz,btn){
+  state.fontSize=sz;
+  document.querySelectorAll('.fc-btn').forEach(b=>b.classList.remove('active'));
+  btn?.classList.add('active');
+  document.getElementById('lyricsContainer').className=`lyrics-container font-${sz}${state.showChords?'':' no-chords-mode'}`;
+}
+function toggleChords(btn){
+  state.showChords=!state.showChords;
+  btn.textContent=state.showChords?'🎸 Acordes':'📜 Sin acordes';
+  document.getElementById('lyricsContainer').classList.toggle('no-chords-mode',!state.showChords);
+}
+
+/* ── FAVORITES ── */
+function toggleFav(id,btn){
+  const idx=state.favorites.indexOf(id);
+  if(idx>=0){state.favorites.splice(idx,1);toast('Eliminado de favoritos');btn?.classList.remove('active');}
+  else{state.favorites.push(id);toast('♥ Guardado en favoritos');btn?.classList.add('active');}
+  saveState();
+}
+function toggleFavDetail(id){toggleFav(id,null);renderDetailMeta();}
+function renderFavorites(){
+  const favs=state.songs.filter(s=>state.favorites.includes(s.id));
+  document.getElementById('favCount').textContent=`${favs.length} canción${favs.length!==1?'es':''}`;
+  if(favs.length){document.getElementById('favGrid').style.display='grid';document.getElementById('favEmpty').style.display='none';renderGrid('favGrid',favs);}
+  else{document.getElementById('favGrid').style.display='none';document.getElementById('favEmpty').style.display='flex';}
+}
+
+/* ── REPERTOIRES ── */
+function renderRepertoires(){
+  const grid=document.getElementById('repGrid');const empty=document.getElementById('repEmpty');
+  if(!state.repertoires.length){grid.innerHTML='';empty.style.display='flex';return;}
+  empty.style.display='none';
+  grid.innerHTML=state.repertoires.map(r=>{
+    const songs=r.songs.map(id=>state.songs.find(s=>s.id===id)).filter(Boolean);
+    return`<div class="rep-card" onclick="openRepDetail(${r.id})">
+      <div class="rep-card-header"><div class="rep-title">${r.name}</div><span style="font-size:.7rem;color:var(--text-soft);font-weight:700">${songs.length} 🎵</span></div>
+      ${r.desc?`<div class="rep-desc">${r.desc}</div>`:''}
+      <div class="rep-preview">${songs.slice(0,3).map(s=>`<span class="rep-song-chip">${s.titulo}</span>`).join('')}${songs.length>3?`<span class="rep-song-chip">+${songs.length-3}</span>`:''}</div>
+      <div class="rep-actions" onclick="event.stopPropagation()">
+        <button class="btn btn-primary btn-sm" onclick="openRepDetail(${r.id})">📋 Ver</button>
+        <button class="btn btn-sm" style="background:var(--surface2);color:var(--text);border-radius:40px;font-weight:700" onclick="shareRep(${r.id})">🔗 Compartir</button>
+        <button class="btn btn-sm" style="background:rgba(232,64,64,.1);color:var(--fav);border-radius:40px;font-weight:700" onclick="deleteRep(${r.id})">🗑</button>
+      </div>
+    </div>`;
+  }).join('')+`<div class="new-rep-btn" onclick="openNewRepModal()"><div style="font-size:1.8rem;opacity:.4">+</div>Nuevo Repertorio</div>`;
+}
+function openRepDetail(repId){
+  const rep=state.repertoires.find(r=>r.id===repId);if(!rep)return;
+  state.currentRep=rep;showView('repdetail');renderRepDetail();
+}
+function renderRepDetail(){
+  const rep=state.currentRep;
+  const songs=rep.songs.map(id=>state.songs.find(s=>s.id===id)).filter(Boolean);
+  document.getElementById('repDetailHeader').innerHTML=`
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <div>
+        <div class="detail-title">${rep.name}</div>
+        ${rep.desc?`<div class="detail-sub">${rep.desc}</div>`:''}
+        <div style="font-size:.8rem;color:var(--text-soft);margin-top:6px">${songs.length} canción${songs.length!==1?'es':''}</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-primary btn-sm" onclick="shareRep(${rep.id})">🔗 Compartir</button>
+        <button class="btn btn-sm" style="background:var(--surface2);color:var(--text);border-radius:40px;font-weight:700" onclick="exportRep(${rep.id})">📥 Exportar</button>
+      </div>
+    </div>`;
+  document.getElementById('repAddSongBtn').onclick=openAddRepForCurrent;
+  const list=document.getElementById('repSongList');
+  const empty=document.getElementById('repSongEmpty');
+  if(!songs.length){list.innerHTML='';empty.style.display='flex';return;}
+  empty.style.display='none';
+  list.innerHTML=songs.map((s,i)=>`
+    <div class="rsl-item" draggable="true" data-idx="${i}" data-id="${s.id}"
+      ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="dropSong(event,${rep.id})" ondragleave="dragLeave(event)">
+      <span class="rsl-drag">⠿</span>
+      <span class="rsl-num">${i+1}</span>
+      <div class="rsl-info" onclick="openSong(${s.id})">
+        <div class="rsl-title">${s.titulo}</div>
+        <div class="rsl-author">${s.autor} · ${s.ministerio}</div>
+      </div>
+      <span class="rsl-key">♪${s.tono}</span>
+      <button class="rsl-remove" onclick="removeSongFromRep(${rep.id},${s.id})">✕</button>
+    </div>`).join('');
+}
+function openAddRepForCurrent(){
+  if(!state.currentRep)return;
+  const songs=state.songs.filter(s=>!state.currentRep.songs.includes(s.id));
+  openModal('addRepModal');
+  document.getElementById('addRepSongTitle').textContent=`Agregar canción a "${state.currentRep.name}"`;
+  state.addRepSongId=null;
+  document.getElementById('addRepList').innerHTML=`<div style="padding:8px">
+    <input type="text" placeholder="Buscar…" oninput="filterRepPicker(this.value,'rpl')" style="width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-size:.83rem;outline:none;margin-bottom:6px">
+    <div id="rpl">${songs.map(s=>`<div class="slc-item" onclick="addSongToCurrentRep(${s.id})"><div class="slc-info"><div class="slc-title">${s.titulo}</div><div class="slc-author">${s.autor}</div></div><span class="tag tag-key">♪${s.tono}</span></div>`).join('')}</div>
+  </div>`;
+}
+function filterRepPicker(q,listId){
+  document.querySelectorAll('#'+listId+' .slc-item').forEach(item=>{item.style.display=item.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});
+}
+function addSongToCurrentRep(songId){
+  if(!state.currentRep)return;
+  if(state.currentRep.songs.includes(songId)){toast('Ya está en este repertorio');return;}
+  state.currentRep.songs.push(songId);saveState();toast('✅ Canción agregada');closeModal('addRepModal');renderRepDetail();
+}
+function removeSongFromRep(repId,songId){
+  const rep=state.repertoires.find(r=>r.id===repId);if(!rep)return;
+  rep.songs=rep.songs.filter(id=>id!==songId);saveState();renderRepDetail();toast('Canción quitada del repertorio');
+}
+function deleteRep(id){
+  if(!confirm('¿Eliminar este repertorio?'))return;
+  state.repertoires=state.repertoires.filter(r=>r.id!==id);saveState();renderRepertoires();toast('🗑 Repertorio eliminado');
+}
+function shareRep(id){
+  const rep=state.repertoires.find(r=>r.id===id);if(!rep)return;
+  const songs=rep.songs.map(sid=>state.songs.find(s=>s.id===sid)).filter(Boolean);
+  const text=`📋 *${rep.name}*\n\nRepertorio Dulce Refugio 🕊️\n${songs.map((s,i)=>`${i+1}. ${s.titulo} – ${s.autor} (♪${s.tono})`).join('\n')}`;
+  if(navigator.share)navigator.share({title:rep.name,text});
+  else navigator.clipboard.writeText(text).then(()=>toast('📋 Repertorio copiado al portapapeles'));
+}
+function exportRep(id){
+  const rep=state.repertoires.find(r=>r.id===id);if(!rep)return;
+  const songs=rep.songs.map(sid=>state.songs.find(s=>s.id===sid)).filter(Boolean);
+  let content=`DULCE REFUGIO – ${rep.name}\n${'='.repeat(50)}\n${rep.desc||''}\n\n`;
+  songs.forEach((s,i)=>{
+    content+=`${i+1}. ${s.titulo} (${s.autor}) – Tono: ${s.tono}\n${'─'.repeat(40)}\n${s.letra.replace(/\[.*?\]/g,'')}\n\n`;
+  });
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type:'text/plain'}));a.download=`${rep.name}.txt`;a.click();
+  toast('📥 Repertorio exportado');
+}
+/* Drag & Drop */
+function dragStart(e){state.dragSrc=parseInt(e.currentTarget.dataset.idx);e.currentTarget.classList.add('dragging');e.dataTransfer.effectAllowed='move';}
+function dragOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
+function dragLeave(e){e.currentTarget.classList.remove('drag-over');}
+function dropSong(e,repId){
+  e.preventDefault();e.currentTarget.classList.remove('drag-over');
+  const rep=state.repertoires.find(r=>r.id===repId);if(!rep)return;
+  const targetIdx=parseInt(e.currentTarget.dataset.idx);
+  if(state.dragSrc===null||state.dragSrc===targetIdx){state.dragSrc=null;return;}
+  const arr=[...rep.songs];const[moved]=arr.splice(state.dragSrc,1);arr.splice(targetIdx,0,moved);
+  rep.songs=arr;state.dragSrc=null;saveState();renderRepDetail();
+}
+
+/* Add to rep (from detail) */
+function openNewRepModal(){closeModal('addRepModal');openModal('newRepModal');}
+function createRepertoire(){
+  const name=document.getElementById('newRepName').value.trim();
+  if(!name){toast('⚠️ Ingresa un nombre');return;}
+  const rep={id:Date.now(),name,desc:document.getElementById('newRepDesc').value,songs:[]};
+  if(state.addRepSongId){rep.songs.push(state.addRepSongId);state.addRepSongId=null;}
+  state.repertoires.push(rep);saveState();
+  closeModal('newRepModal');document.getElementById('newRepName').value='';document.getElementById('newRepDesc').value='';
+  toast('📋 Repertorio creado'+( rep.songs.length?' con la canción incluida':''));
+  renderRepertoires();
+}
+function openAddRep(songId){
+  state.addRepSongId=songId;
+  const s=state.songs.find(x=>x.id===songId);
+  document.getElementById('addRepSongTitle').textContent=`Agregar "${s?.titulo}" a un repertorio`;
+  const list=document.getElementById('addRepList');
+  list.innerHTML=!state.repertoires.length
+    ?`<div class="empty-state" style="padding:16px"><div class="empty-icon" style="font-size:2rem">📋</div><p style="font-size:.82rem;color:var(--text-soft)">No tienes repertorios.</p></div>`
+    :state.repertoires.map(r=>`<div class="slc-item" onclick="addToRep(${r.id},${songId})">
+        <div class="slc-info"><div class="slc-title">${r.name}</div><div class="slc-author">${r.songs.length} canciones</div></div>
+        <span style="color:${r.songs.includes(songId)?'var(--green)':'var(--text-soft)'};">${r.songs.includes(songId)?'✅':'+'}</span>
+      </div>`).join('');
+  openModal('addRepModal');
+}
+function addToRep(repId,songId){
+  const rep=state.repertoires.find(r=>r.id===repId);if(!rep)return;
+  if(rep.songs.includes(songId)){toast('Ya está en este repertorio');return;}
+  rep.songs.push(songId);saveState();toast('✅ Canción agregada al repertorio');closeModal('addRepModal');
+}
+
+/* ── COMMUNITY ── */
+function renderCommunity(){renderCommTab(state.commTab);}
+function setCommTab(tab,btn){
+  state.commTab=tab;
+  document.querySelectorAll('.comm-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');renderCommTab(tab);
+}
+function renderCommTab(tab){
+  const c=document.getElementById('commContent');
+  if(tab==='suggest'){
+    c.innerHTML=`<div class="admin-form"><h3>💡 Sugerir una Canción</h3>
+      <div class="form-grid">
+        <div class="field"><label>TÍTULO *</label><input type="text" id="sugTitulo" placeholder="Nombre de la canción"></div>
+        <div class="field"><label>AUTOR / MINISTERIO</label><input type="text" id="sugAutor" placeholder="Ej: Marcos Witt"></div>
+        <div class="field field-full"><label>¿POR QUÉ NOS LA RECOMIENDAS?</label><textarea id="sugComentario" rows="2" placeholder="Cuéntanos…"></textarea></div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="submitSuggestion()">Enviar Sugerencia</button>
+    </div>
+    <div class="section-hdr"><h2>📨 Sugerencias recientes</h2></div>
+    ${state.suggestions.map(s=>`<div class="suggestion-card">
+      <div class="sug-header">
+        <div><div class="sug-title">${s.titulo}</div><div class="sug-meta">por ${s.autor} · ${s.fecha}</div></div>
+        <span class="sug-status ${s.estado}">${{pending:'⏳ Pendiente',approved:'✅ Aprobada',rejected:'❌ Rechazada'}[s.estado]}</span>
+      </div>
+      ${s.comentario?`<p style="font-size:.8rem;color:var(--text-soft);margin-top:4px;font-style:italic">"${s.comentario}"</p>`:''}
+      <div style="margin-top:8px"><button class="vote-btn${s.miVoto?' voted':''}" onclick="voteSuggestion(${s.id})">👍 ${s.votos}</button></div>
+    </div>`).join('')}`;
+  } else if(tab==='corrections'){
+    c.innerHTML=`<div class="admin-form"><h3>🔧 Reportar Corrección</h3>
+      <div class="form-grid">
+        <div class="field"><label>CANCIÓN</label><input type="text" placeholder="Nombre de la canción"></div>
+        <div class="field"><label>TIPO DE ERROR</label><select><option>Acorde incorrecto</option><option>Letra incorrecta</option><option>Tono incorrecto</option><option>Otro</option></select></div>
+        <div class="field field-full"><label>DESCRIPCIÓN</label><textarea rows="3" placeholder="Describe qué está mal y cómo debería ser…"></textarea></div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="toast('🔧 Corrección enviada. ¡Gracias!')">Enviar Corrección</button>
+    </div>
+    <div class="empty-state"><div class="empty-icon">✅</div><h3>Sin correcciones pendientes</h3><p>¡Todo parece estar bien!</p></div>`;
+  } else {
+    c.innerHTML=`<div class="admin-form"><h3>🎸 Compartir Arreglo Musical</h3>
+      <div class="form-grid">
+        <div class="field"><label>CANCIÓN</label><input type="text" placeholder="Nombre de la canción"></div>
+        <div class="field"><label>INSTRUMENTO</label><select><option>Guitarra</option><option>Piano</option><option>Bajo</option><option>Batería</option><option>Voz</option><option>Otro</option></select></div>
+        <div class="field field-full"><label>DESCRIPCIÓN DEL ARREGLO</label><textarea rows="4" placeholder="Describe tu arreglo, técnica, etc…"></textarea></div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="toast('🎸 Arreglo enviado. ¡Gracias!')">Enviar Arreglo</button>
+    </div>`;
+  }
+}
+function submitSuggestion(){
+  const t=document.getElementById('sugTitulo')?.value.trim();const a=document.getElementById('sugAutor')?.value.trim();
+  if(!t){toast('⚠️ Ingresa el título de la canción');return;}
+  state.suggestions.unshift({id:Date.now(),titulo:t,autor:a||'Desconocido',estado:'pending',fecha:new Date().toISOString().split('T')[0],votos:0,miVoto:false,comentario:document.getElementById('sugComentario')?.value||''});
+  saveState();renderCommTab('suggest');toast('💡 ¡Sugerencia enviada! Gracias.');
+}
+function voteSuggestion(id){
+  const s=state.suggestions.find(x=>x.id===id);if(!s)return;
+  s.miVoto=!s.miVoto;s.votos+=s.miVoto?1:-1;saveState();renderCommTab('suggest');
+}
+
+/* ── ADMIN ── */
+function renderAdmin(){renderAdminStats();renderAdminList();renderAdminSuggestions();renderCatList();}
+function renderAdminStats(){
+  const cats={};state.songs.forEach(s=>cats[s.categoria]=(cats[s.categoria]||0)+1);
+  const top=Object.entries(cats).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('adminStats').innerHTML=`
+    <div class="stat-card"><div class="stat-icon">🎵</div><div class="stat-val">${state.songs.length}</div><div class="stat-lbl">CANCIONES</div></div>
+    <div class="stat-card"><div class="stat-icon">♥</div><div class="stat-val">${state.favorites.length}</div><div class="stat-lbl">FAVORITOS</div></div>
+    <div class="stat-card"><div class="stat-icon">📋</div><div class="stat-val">${state.repertoires.length}</div><div class="stat-lbl">REPERTORIOS</div></div>
+    <div class="stat-card"><div class="stat-icon">💡</div><div class="stat-val">${state.suggestions.filter(s=>s.estado==='pending').length}</div><div class="stat-lbl">PENDIENTES</div></div>
+    <div class="stat-card"><div class="stat-icon">🏷️</div><div class="stat-val">${categories.length}</div><div class="stat-lbl">CATEGORÍAS</div></div>
+    <div class="stat-card"><div class="stat-icon">🔥</div><div class="stat-val" style="font-size:1rem;padding-top:4px">${top?top[0]:'–'}</div><div class="stat-lbl">TOP CATEGORÍA</div></div>`;
+}
+function setAdminTab(tab,btn){
+  document.querySelectorAll('#view-admin .tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#view-admin .tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');document.getElementById('atab-'+tab)?.classList.add('active');
+  if(tab==='list')renderAdminList();
+  if(tab==='suggestions')renderAdminSuggestions();
+  if(tab==='categories')renderCatList();
+}
+function renderAdminList(){
+  const q=(document.getElementById('adminSearch')?.value||'').toLowerCase();
+  const songs=state.songs.filter(s=>!q||s.titulo.toLowerCase().includes(q)||s.autor.toLowerCase().includes(q));
+  document.getElementById('adminSongList').innerHTML=`<div class="admin-song-list">${songs.map(s=>`
+    <div class="asl-item">
+      <div class="asl-info"><div class="asl-title">${s.titulo}</div><div class="asl-meta">${s.autor} · ${s.ministerio} · <span class="tag tag-cat" style="font-size:.67rem">${s.categoria}</span> · ♪${s.tono}</div></div>
+      <div class="asl-actions">
+        <button class="asl-btn asl-btn-edit" onclick="openEditModal(${s.id})">✏️ Editar</button>
+        <button class="asl-btn asl-btn-del" onclick="deleteSong(${s.id})">🗑</button>
+      </div>
+    </div>`).join('')}</div>`;
+}
+function renderAdminSuggestions(){
+  document.getElementById('adminSuggestions').innerHTML=state.suggestions.map(s=>`
+    <div class="suggestion-card">
+      <div class="sug-header">
+        <div><div class="sug-title">${s.titulo}</div><div class="sug-meta">por ${s.autor} · ${s.fecha} · 👍${s.votos}</div></div>
+        <span class="sug-status ${s.estado}">${{pending:'⏳ Pendiente',approved:'✅ Aprobada',rejected:'❌ Rechazada'}[s.estado]}</span>
+      </div>
+      ${s.comentario?`<p style="font-size:.8rem;color:var(--text-soft);margin:6px 0;font-style:italic">"${s.comentario}"</p>`:''}
+      ${s.estado==='pending'?`<div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn btn-success btn-sm" onclick="approveSuggestion(${s.id})">✅ Aprobar</button>
+        <button class="btn btn-danger btn-sm" onclick="rejectSuggestion(${s.id})">❌ Rechazar</button>
+      </div>`:''}
+    </div>`).join('');
+}
+function approveSuggestion(id){const s=state.suggestions.find(x=>x.id===id);if(s)s.estado='approved';saveState();renderAdminSuggestions();toast('✅ Sugerencia aprobada');}
+function rejectSuggestion(id){const s=state.suggestions.find(x=>x.id===id);if(s)s.estado='rejected';saveState();renderAdminSuggestions();toast('❌ Sugerencia rechazada');}
+function renderCatList(){
+  document.getElementById('catList').innerHTML=categories.map((c,i)=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)">
+      <span class="tag tag-cat" style="flex:1">${c}</span>
+      <span style="font-size:.8rem;color:var(--text-soft)">${state.songs.filter(s=>s.categoria===c).length} canciones</span>
+      ${i>=6?`<button onclick="deleteCategory('${c}')" style="color:var(--fav);font-size:.85rem;padding:2px 6px;cursor:pointer">✕</button>`:'<span style="width:24px"></span>'}
+    </div>`).join('');
+}
+function addCategory(){
+  const inp=document.getElementById('newCatInput');const val=inp.value.trim();
+  if(!val){toast('⚠️ Ingresa un nombre');return;}
+  if(categories.includes(val)){toast('Ya existe esta categoría');return;}
+  categories.push(val);saveCategories();inp.value='';renderCatList();toast('🏷️ Categoría agregada');
+}
+function deleteCategory(cat){
+  if(state.songs.some(s=>s.categoria===cat)){toast('⚠️ Tiene canciones asignadas. Reasígnalas primero.');return;}
+  categories=categories.filter(c=>c!==cat);saveCategories();renderCatList();toast('🗑 Categoría eliminada');
+}
+function addSongAdmin(){
+  const titulo=document.getElementById('adTitulo').value.trim();
+  const autor=document.getElementById('adAutor').value.trim();
+  const letra=document.getElementById('adLetra').value.trim();
+  if(!titulo||!autor||!letra){toast('⚠️ Completa los campos obligatorios (*)');return;}
+  const s={id:Date.now(),titulo,autor,
+    ministerio:document.getElementById('adMinisterio').value||'Independiente',
+    categoria:document.getElementById('adCategoria').value,
+    tono:document.getElementById('adTono').value,
+    ano:parseInt(document.getElementById('adAno').value)||null,
+    desc:document.getElementById('adDesc').value||'',
+    vista:0,
+    preview:letra.replace(/\[.*?\]/g,'').split('\n').find(l=>l.trim()&&!l.startsWith('['))||titulo,
+    letra};
+  state.songs.push(s);saveState();clearAdminForm();
+  renderAdminList();renderAdminStats();updateBadges();
+  toast('✅ Canción agregada exitosamente');
+}
+function clearAdminForm(){['adTitulo','adAutor','adMinisterio','adLetra','adAno','adDesc'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});}
+function deleteSong(id){
+  if(!confirm('¿Eliminar esta canción? No se puede deshacer.'))return;
+  state.songs=state.songs.filter(s=>s.id!==id);
+  state.favorites=state.favorites.filter(fid=>fid!==id);
+  state.repertoires.forEach(r=>{r.songs=r.songs.filter(sid=>sid!==id)});
+  saveState();renderAdminList();renderAdminStats();updateBadges();toast('🗑 Canción eliminada');
+}
+function openEditModal(id){
+  const s=state.songs.find(x=>x.id===id);if(!s)return;
+  document.getElementById('editSongId').value=id;
+  document.getElementById('editTitulo').value=s.titulo;
+  document.getElementById('editAutor').value=s.autor;
+  document.getElementById('editMinisterio').value=s.ministerio;
+  document.getElementById('editCategoria').value=s.categoria;
+  document.getElementById('editTono').value=s.tono;
+  document.getElementById('editAno').value=s.ano||'';
+  document.getElementById('editLetra').value=s.letra;
+  openModal('editSongModal');
+}
+function saveEditSong(){
+  const id=parseInt(document.getElementById('editSongId').value);
+  const s=state.songs.find(x=>x.id===id);if(!s)return;
+  s.titulo=document.getElementById('editTitulo').value;
+  s.autor=document.getElementById('editAutor').value;
+  s.ministerio=document.getElementById('editMinisterio').value;
+  s.categoria=document.getElementById('editCategoria').value;
+  s.tono=document.getElementById('editTono').value;
+  s.ano=parseInt(document.getElementById('editAno').value)||null;
+  s.letra=document.getElementById('editLetra').value;
+  s.preview=s.letra.replace(/\[.*?\]/g,'').split('\n').find(l=>l.trim()&&!l.startsWith('['))||s.titulo;
+  saveState();closeModal('editSongModal');renderAdminList();toast('✅ Canción actualizada correctamente');
+}
+
+/* ── SHARE ── */
+function toggleShareMenu(){document.getElementById('shareMenu')?.classList.toggle('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('.share-dropdown'))document.getElementById('shareMenu')?.classList.remove('open');});
+function shareWA(){
+  const s=state.currentSong;const k=transposeNote(s.tono,state.transpose)||s.tono;
+  window.open('https://wa.me/?text='+encodeURIComponent(`🎵 *${s.titulo}* – ${s.autor}\nTono: ${k}\n\nEncontrado en *Dulce Refugio* 🕊️`),'_blank');
+  toggleShareMenu();
+}
+function shareEmail(){
+  const s=state.currentSong;
+  window.location.href=`mailto:?subject=${encodeURIComponent(s.titulo+' – Dulce Refugio')}&body=${encodeURIComponent(`Te comparto esta canción:\n\n${s.titulo} – ${s.autor}\n\nDulce Refugio 🕊️`)}`;
+  toggleShareMenu();
+}
+function copyLink(){navigator.clipboard.writeText(`https://dulcerefugio.app/cancion/${state.currentSong.id}`).then(()=>toast('🔗 Enlace copiado'));toggleShareMenu();}
+function downloadTxt(){
+  const s=state.currentSong;const k=transposeNote(s.tono,state.transpose)||s.tono;
+  const txt=`DULCE REFUGIO\n${'='.repeat(50)}\n${s.titulo}\nAutor: ${s.autor} | Ministerio: ${s.ministerio}\nTono: ${k} | Categoría: ${s.categoria}\n${'='.repeat(50)}\n\n${s.letra}`;
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'text/plain;charset=utf-8'}));a.download=`${s.titulo}.txt`;a.click();
+  toast('📥 Canción descargada');toggleShareMenu();
+}
+
+/* ── AUTH ── */
+function doLogin(){
+  const email=document.getElementById('loginEmail').value||'usuario@demo.com';
+  const initials=email.slice(0,2).toUpperCase();
+  state.currentUser={name:email.split('@')[0],email,initials};
+  document.getElementById('userAvatar').textContent=initials;
+  closeModal('loginModal');toast('✅ Sesión iniciada como '+state.currentUser.name);
+}
+
+/* ── THEME ── */
+function toggleTheme(){
+  const dark=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',dark?'light':'dark');
+  document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
+  localStorage.setItem('dr_theme',dark?'light':'dark');
+}
+(()=>{const t=localStorage.getItem('dr_theme');if(t){document.documentElement.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';}})();
+
+/* ── MODALS ── */
+function openModal(id){document.getElementById(id)?.classList.add('open');}
+function closeModal(id,e){if(e&&e.target!==e.currentTarget)return;document.getElementById(id)?.classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'));});
+
+/* ── TOAST ── */
+function toast(msg,dur=2800){
+  const c=document.getElementById('toastContainer');
+  const t=document.createElement('div');t.className='toast';t.textContent=msg;c.appendChild(t);
+  setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),350);},dur);
+}
+
+/* ── OFFLINE / PWA ── */
+window.addEventListener('online',()=>{document.body.classList.remove('offline');toast('✅ Conexión restaurada');});
+window.addEventListener('offline',()=>{document.body.classList.add('offline');toast('📡 Modo offline activo');});
+let pwaPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();pwaPrompt=e;document.getElementById('pwaBar').classList.remove('hidden');});
+document.getElementById('pwaInstall').addEventListener('click',()=>{
+  if(pwaPrompt){pwaPrompt.prompt();pwaPrompt.userChoice.then(()=>{pwaPrompt=null;document.getElementById('pwaBar').classList.add('hidden');});}
+  else toast('Agrega esta página a tu pantalla de inicio desde el menú del navegador.');
+});
+
+/* ═══════════════════════════════════════
+   FOLDERS
+═══════════════════════════════════════ */
+let newFolderColor='#1a5cb8';
+let newFolderEmoji='🔵';
+
+function selectFolderColor(emoji,color){
+  newFolderColor=color; newFolderEmoji=emoji;
+  document.getElementById('newFolderColor').value=color;
+  document.getElementById('newFolderEmoji').value=emoji;
+  document.querySelectorAll('.fcolor-btn').forEach(b=>{
+    b.classList.toggle('fcolor-active', b.dataset.color===color);
+  });
+}
+
+function openNewFolderModal(){
+  newFolderColor='#1a5cb8'; newFolderEmoji='🔵';
+  document.querySelectorAll('.fcolor-btn').forEach((b,i)=>b.classList.toggle('fcolor-active',i===0));
+  document.getElementById('newFolderName').value='';
+  document.getElementById('newFolderDesc').value='';
+  openModal('newFolderModal');
+}
+
+function createFolder(){
+  const name=document.getElementById('newFolderName').value.trim();
+  if(!name){toast('⚠️ Ingresa un nombre para la carpeta');return;}
+  state.folders.push({
+    id:Date.now(),
+    name,
+    desc:document.getElementById('newFolderDesc').value.trim(),
+    color:newFolderColor,
+    emoji:newFolderEmoji,
+    songs:[]
+  });
+  saveState();
+  closeModal('newFolderModal');
+  renderFolders();
+  toast('📁 Carpeta creada');
+}
+
+function renderFolders(){
+  updateBadges();
+  const grid=document.getElementById('folderGrid');
+  const empty=document.getElementById('folderEmpty');
+  if(!state.folders.length){grid.innerHTML='';empty.style.display='flex';return;}
+  empty.style.display='none';
+  grid.innerHTML=state.folders.map(f=>{
+    const songs=f.songs.map(id=>state.songs.find(s=>s.id===id)).filter(Boolean);
+    return`<div class="folder-card" style="--folder-color:${f.color}" onclick="openFolderDetail(${f.id})">
+      <div class="folder-icon" style="background:${f.color}22">${f.emoji}</div>
+      <div class="folder-name">${f.name}</div>
+      ${f.desc?`<div class="folder-desc">${f.desc}</div>`:''}
+      <div class="folder-meta">
+        <span class="folder-count">🎵 ${songs.length} canción${songs.length!==1?'es':''}</span>
+        <div class="folder-actions" onclick="event.stopPropagation()">
+          <button class="asl-btn asl-btn-edit" style="padding:3px 8px;font-size:.72rem;border-radius:6px" onclick="editFolder(${f.id})">✏️</button>
+          <button class="asl-btn asl-btn-del" style="padding:3px 8px;font-size:.72rem;border-radius:6px" onclick="deleteFolder(${f.id})">🗑</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('')+`<div class="new-folder-btn" onclick="openNewFolderModal()"><div style="font-size:1.8rem;opacity:.4">📁</div>Nueva Carpeta</div>`;
+}
+
+function openFolderDetail(folderId){
+  const folder=state.folders.find(f=>f.id===folderId);if(!folder)return;
+  state.currentFolder=folder;
+  showView('folderdetail');
+  renderFolderDetail();
+}
+
+function renderFolderDetail(){
+  const f=state.currentFolder;
+  const songs=f.songs.map(id=>state.songs.find(s=>s.id===id)).filter(Boolean);
+
+  document.getElementById('folderDetailHeader').innerHTML=`
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:50px;height:50px;border-radius:14px;background:${f.color}22;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0">${f.emoji}</div>
+        <div>
+          <div class="detail-title" style="color:${f.color}">${f.name}</div>
+          ${f.desc?`<div class="detail-sub">${f.desc}</div>`:''}
+          <div style="font-size:.8rem;color:var(--text-soft);margin-top:4px">${songs.length} canción${songs.length!==1?'es':''}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-primary btn-sm" onclick="printFolder(${f.id})">🖨️ Imprimir lista</button>
+        <button class="btn btn-sm" style="background:var(--surface2);color:var(--text);border-radius:40px;font-weight:700" onclick="shareFolderList(${f.id})">🔗 Compartir</button>
+      </div>
+    </div>`;
+
+  document.getElementById('folderAddSongBtn').onclick=()=>openFolderPickSong(f.id);
+
+  const list=document.getElementById('folderSongList');
+  const empty=document.getElementById('folderSongEmpty');
+
+  if(!songs.length){list.innerHTML='';empty.style.display='flex';return;}
+  empty.style.display='none';
+
+  list.innerHTML=`<div class="folder-song-list">${songs.map((s,i)=>`
+    <div class="fsl-item">
+      <span class="fsl-num">${i+1}</span>
+      <div class="fsl-color" style="background:${f.color}"></div>
+      <div class="fsl-info" onclick="openSong(${s.id})">
+        <div class="fsl-title">${s.titulo}</div>
+        <div class="fsl-author">${s.autor} · ${s.ministerio}</div>
+      </div>
+      <span class="fsl-key">♪${s.tono}</span>
+      <span class="tag tag-cat" style="font-size:.68rem">${s.categoria}</span>
+      <button class="fsl-remove" onclick="removeSongFromFolder(${f.id},${s.id})" title="Quitar de la carpeta">✕</button>
+    </div>`).join('')}</div>`;
+}
+
+function openFolderPickSong(folderId){
+  const folder=state.folders.find(f=>f.id===folderId);if(!folder)return;
+  const available=state.songs.filter(s=>!folder.songs.includes(s.id));
+  document.getElementById('folderPickTitle').textContent=`Agregar canción a "${folder.name}"`;
+  document.getElementById('folderPickList').innerHTML=available.map(s=>`
+    <div class="slc-item" onclick="addSongToFolder(${folderId},${s.id})">
+      <div class="slc-info"><div class="slc-title">${s.titulo}</div><div class="slc-author">${s.autor}</div></div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <span class="tag tag-cat" style="font-size:.68rem">${s.categoria}</span>
+        <span class="tag tag-key">♪${s.tono}</span>
+      </div>
+    </div>`).join('');
+  openModal('folderPickSongModal');
+}
+
+function filterFolderPicker(q){
+  document.querySelectorAll('#folderPickList .slc-item').forEach(item=>{
+    item.style.display=item.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';
+  });
+}
+
+function addSongToFolder(folderId,songId){
+  const folder=state.folders.find(f=>f.id===folderId);if(!folder)return;
+  if(folder.songs.includes(songId)){toast('Ya está en esta carpeta');return;}
+  folder.songs.push(songId);saveState();
+  toast('✅ Canción agregada a la carpeta');
+  closeModal('folderPickSongModal');
+  renderFolderDetail();
+}
+
+function removeSongFromFolder(folderId,songId){
+  const folder=state.folders.find(f=>f.id===folderId);if(!folder)return;
+  folder.songs=folder.songs.filter(id=>id!==songId);saveState();
+  renderFolderDetail();toast('Canción quitada de la carpeta');
+}
+
+function deleteFolder(id){
+  if(!confirm('¿Eliminar esta carpeta? Las canciones no se borrarán.'))return;
+  state.folders=state.folders.filter(f=>f.id!==id);saveState();renderFolders();toast('🗑 Carpeta eliminada');
+}
+
+function editFolder(id){
+  const f=state.folders.find(x=>x.id===id);if(!f)return;
+  newFolderColor=f.color; newFolderEmoji=f.emoji;
+  document.getElementById('newFolderName').value=f.name;
+  document.getElementById('newFolderDesc').value=f.desc||'';
+  document.querySelectorAll('.fcolor-btn').forEach(b=>b.classList.toggle('fcolor-active',b.dataset.color===f.color));
+  // Re-wire create button to save edit
+  const btn=document.querySelector('#newFolderModal .btn-primary');
+  btn.textContent='Guardar Cambios';
+  btn.onclick=()=>{
+    f.name=document.getElementById('newFolderName').value.trim()||f.name;
+    f.desc=document.getElementById('newFolderDesc').value.trim();
+    f.color=newFolderColor; f.emoji=newFolderEmoji;
+    saveState();closeModal('newFolderModal');
+    btn.textContent='Crear Carpeta'; btn.onclick=createFolder;
+    renderFolders();toast('✅ Carpeta actualizada');
+  };
+  openModal('newFolderModal');
+}
+
+// Add to folder from song detail
+function openAddToFolder(songId){
+  const s=state.songs.find(x=>x.id===songId);
+  document.getElementById('addFolderSongTitle').textContent=`Agregar "${s?.titulo}" a una carpeta`;
+  document.getElementById('addFolderSongList').innerHTML=!state.folders.length
+    ?`<div class="empty-state" style="padding:16px"><div class="empty-icon" style="font-size:2rem">📁</div><p style="font-size:.82rem;color:var(--text-soft)">No tienes carpetas. Créalas desde el menú Carpetas.</p></div>`
+    :state.folders.map(f=>`
+      <div class="slc-item" onclick="addSongToFolder(${f.id},${songId});closeModal('addFolderSongModal')">
+        <div style="width:28px;height:28px;border-radius:8px;background:${f.color}22;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0">${f.emoji}</div>
+        <div class="slc-info"><div class="slc-title">${f.name}</div><div class="slc-author">${f.songs.length} canciones</div></div>
+        <span style="color:${f.songs.includes(songId)?'var(--green)':'var(--text-soft)'};">${f.songs.includes(songId)?'✅':'+'}</span>
+      </div>`).join('');
+  openModal('addFolderSongModal');
+}
+
+function shareFolderList(folderId){
+  const f=state.folders.find(x=>x.id===folderId);if(!f)return;
+  const songs=f.songs.map(id=>state.songs.find(s=>s.id===id)).filter(Boolean);
+  const text=`📁 *${f.name}*\n${f.desc?f.desc+'\n':''}\nDulce Refugio 🕊️\n${'─'.repeat(30)}\n${songs.map((s,i)=>`${i+1}. ${s.titulo} – ${s.autor} (♪${s.tono})`).join('\n')}`;
+  if(navigator.share)navigator.share({title:f.name,text});
+  else navigator.clipboard.writeText(text).then(()=>toast('📁 Lista copiada al portapapeles'));
+}
+
+function printFolder(folderId){
+  const f=state.folders.find(x=>x.id===folderId);if(!f)return;
+  const songs=f.songs.map(id=>state.songs.find(s=>s.id===id)).filter(Boolean);
+  const rows=songs.map((s,i)=>'<tr><td style="padding:8px 12px;border-bottom:1px solid #e0e0e0;color:#999;text-align:center">'+(i+1)+
+    '</td><td style="padding:8px 12px;border-bottom:1px solid #e0e0e0"><strong>'+s.titulo+'</strong></td>'+
+    '<td style="padding:8px 12px;border-bottom:1px solid #e0e0e0">'+s.autor+'</td>'+
+    '<td style="padding:8px 12px;border-bottom:1px solid #e0e0e0;font-weight:700;color:#1a5cb8">'+s.tono+'</td>'+
+    '<td style="padding:8px 12px;border-bottom:1px solid #e0e0e0">'+s.categoria+'</td></tr>').join('');
+  const html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+f.name+' - Dulce Refugio</title>'+
+    '<style>body{font-family:Arial,sans-serif;padding:24px;color:#000;max-width:700px;margin:0 auto}'+
+    'h1{font-size:1.3rem;margin-bottom:4px}table{width:100%;border-collapse:collapse}'+
+    'th{background:#f0f0f0;padding:8px 12px;text-align:left;font-size:.8rem;border-bottom:2px solid #ccc}'+
+    '@media print{@page{margin:1.5cm 2cm}button{display:none}}</style></head><body>'+
+    '<h1>'+f.name+'</h1><p style="color:#666;font-size:.85rem;margin-bottom:16px">'+(f.desc||'Dulce Refugio - Lista de canciones')+'</p>'+
+    '<table><thead><tr><th>#</th><th>Titulo</th><th>Autor</th><th>Tono</th><th>Categoria</th></tr></thead>'+
+    '<tbody>'+rows+'</tbody></table>'+
+    '<p style="margin-top:20px;font-size:.72rem;color:#aaa">Generado por Dulce Refugio</p>'+
+    '<br><button onclick="window.print()" style="padding:10px 24px;background:#1a5cb8;color:#fff;border:none;border-radius:8px;font-size:.9rem;cursor:pointer">Imprimir</button>'+
+    '</body></html>';
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.target='_blank';
+  a.click();
+  toast('📄 Lista abierta en nueva ventana - tocá Imprimir');
+}
+
+function openPrintModal(){
+  const s=state.currentSong;if(!s)return;
+  document.getElementById('printModalSub').textContent='Imprimiendo: '+s.titulo+' - '+s.autor;
+  document.getElementById('shareMenu').classList.remove('open');
+  openModal('printModal');
+}
+
+function executePrint(){
+  const s=state.currentSong;if(!s)return;
+  const withChords=document.getElementById('printChords').checked;
+  const withHeader=document.getElementById('printHeader').checked;
+  const useTransposed=document.getElementById('printTransposed').checked;
+  const fontSize=document.getElementById('printFontSize').value;
+  const tr=useTransposed?state.transpose:0;
+  const key=transposeNote(s.tono,tr)||s.tono;
+
+  let lyricsHtml='';
+  const lines=s.letra.split('\n');
+  let inStanza=false;
+  lines.forEach(function(raw){
+    const line=raw.trimEnd();
+    const isLabel=/^\[(?![A-G][#b]?(?:m|maj|min|sus|add|dim|aug|7|9|11|13|\/)?[0-9]*)[\w\s\d]+\]$/.test(line.trim());
+    if(isLabel){
+      if(inStanza)lyricsHtml+='</div>';
+      lyricsHtml+='<div class="stanza"><div class="stanza-label">'+line.replace(/[\[\]]/g,'')+'</div>';
+      inStanza=true;return;
+    }
+    if(!inStanza){lyricsHtml+='<div class="stanza">';inStanza=true;}
+    const rx=/\[([A-G][#b]?(?:m|maj|min|sus|add|dim|aug|7|9|11|13|m7|maj7|\/[A-G][#b]?)?(?:\d)?)\]/g;
+    let ch='';let wt='';let li=0;let pend='';let m2;
+    const parts=[];let rx2=new RegExp(rx.source,'g');
+    while((m2=rx2.exec(line))!==null){if(m2.index>li)parts.push({t:'text',v:line.slice(li,m2.index)});parts.push({t:'chord',v:m2[1]});li=rx2.lastIndex;}
+    if(li<line.length)parts.push({t:'text',v:line.slice(li)});
+    parts.forEach(function(p){
+      if(p.t==='chord'){if(pend)ch+='<span class="chord">'+pend+'</span>';pend=transposeChord(p.v,tr);}
+      else{wt+=p.v;if(pend){ch+='<span class="chord">'+pend+'</span>';pend='';}}
+    });
+    if(pend)ch+='<span class="chord">'+pend+'</span>';
+    lyricsHtml+='<div class="lyric-line">'+(withChords?'<div class="chords">'+ch+'</div>':'')+'<div class="words">'+(wt||'&nbsp;')+'</div></div>';
+  });
+  if(inStanza)lyricsHtml+='</div>';
+
+  const html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+s.titulo+' - Dulce Refugio</title>'+
+    '<style>body{font-family:Georgia,serif;padding:24px;color:#000;max-width:680px;margin:0 auto;font-size:'+fontSize+'}'+
+    'h1{font-size:1.5rem;margin-bottom:4px;font-family:Georgia,serif}'+
+    '.meta{color:#555;font-size:.82rem;margin-bottom:4px}'+
+    '.tags{margin-bottom:16px;font-size:.78rem;color:#666;border-bottom:1px solid #ccc;padding-bottom:10px}'+
+    '.stanza{margin-bottom:18px;page-break-inside:avoid}'+
+    '.stanza-label{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#888;margin-bottom:5px;font-family:Arial,sans-serif}'+
+    '.lyric-line{margin-bottom:2px;line-height:1.8}'+
+    '.chords{display:flex;flex-wrap:wrap;min-height:16px;font-family:Courier New,monospace;font-weight:700;font-size:.78em;margin-bottom:1px}'+
+    '.chord{margin-right:10px;color:#1a5cb8}'+
+    '.words{font-size:'+fontSize+';line-height:1.5}'+
+    'button{padding:10px 24px;background:#1a5cb8;color:#fff;border:none;border-radius:8px;font-size:.9rem;cursor:pointer;margin-top:20px}'+
+    '@media print{@page{margin:1.5cm 2cm}body{padding:0}button{display:none}}</style></head><body>'+
+    (withHeader?'<h1>'+s.titulo+'</h1><div class="meta"><strong>'+s.autor+'</strong> - '+s.ministerio+'</div>'+
+    '<div class="tags">Tono: <strong>'+key+'</strong>'+(s.ano?' - '+s.ano:'')+' - '+s.categoria+'</div>':'')+
+    lyricsHtml+
+    '<p style="margin-top:20px;font-size:.72rem;color:#aaa">Dulce Refugio - Musica Cristiana</p>'+
+    '<button onclick="window.print()">Imprimir esta cancion</button>'+
+    '</body></html>';
+
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.target='_blank';
+  a.click();
+  closeModal('printModal');
+  toast('📄 Cancion abierta - toca el boton Imprimir');
+}
+
+
+/* ═══════════════════════════════════════
+   AI SEARCH
+═══════════════════════════════════════ */
+let aiState={result:null,history:[],searching:false,tab:'preview'};
+
+function renderAISearch(){
+  if(aiState.history.length){document.getElementById('aiHistory').style.display='block';renderAIHistory();}
+  if(aiState.result)showAIResult(aiState.result);
+}
+
+/* ── GROQ KEY helpers ── */
+function saveGroqKey(val){localStorage.setItem('dr_groq_key',val.trim());}
+function loadGroqKey(){return localStorage.getItem('dr_groq_key')||'';}
+function toggleGroqKeyVis(){
+  const inp=document.getElementById('groqApiKey');
+  const btn=document.getElementById('groqKeyToggle');
+  if(inp.type==='password'){inp.type='text';btn.textContent='🙈';}
+  else{inp.type='password';btn.textContent='👁';}
+}
+(()=>{
+  const k=loadGroqKey();
+  if(k){const inp=document.getElementById('groqApiKey');if(inp)inp.value=k;}
+})();
+
+async function searchWithAI(){
+  const name=document.getElementById('aiSongName').value.trim();
+  if(!name){toast('⚠️ Escribí el nombre de la canción');document.getElementById('aiSongName').focus();return;}
+  const groqKey=loadGroqKey();
+  if(!groqKey){
+    toast('⚠️ Ingresá tu Groq API Key primero');
+    document.getElementById('groqApiKey').focus();
+    document.getElementById('groqApiKey').style.borderColor='var(--fav)';
+    setTimeout(()=>document.getElementById('groqApiKey').style.borderColor='var(--border)',2000);
+    return;
+  }
+  if(aiState.searching)return;
+  aiState.searching=true;
+  const author=document.getElementById('aiSongAuthor').value.trim();
+  const key=document.getElementById('aiSongKey').value;
+  document.getElementById('aiResult').style.display='none';
+  document.getElementById('aiError').style.display='none';
+  document.getElementById('aiLoading').style.display='block';
+  document.getElementById('aiSearchBtn').disabled=true;
+  document.getElementById('aiSearchBtn').innerHTML='<span style="display:inline-block;animation:aiSpin 1.2s linear infinite">🤖</span> Generando…';
+  const bar=document.getElementById('aiProgressBar');
+  bar.style.width='0%';
+  const steps=[
+    {w:'15%',msg:'Buscando en la base de conocimiento…'},
+    {w:'35%',msg:'Identificando la canción…'},
+    {w:'60%',msg:'Generando letra con acordes…'},
+    {w:'80%',msg:'Verificando tonalidad…'},
+    {w:'92%',msg:'Casi listo…'}
+  ];
+  let si=0;
+  const progInt=setInterval(()=>{
+    if(si<steps.length){bar.style.width=steps[si].w;document.getElementById('aiLoadingMsg').textContent=steps[si].msg;si++;}
+  },1500);
+  const prompt=`Eres un experto en música cristiana en español con conocimiento exhaustivo de canciones de alabanza y adoración.
+El usuario quiere la letra COMPLETA con acordes de guitarra de: "${name}"${author?' — artista/ministerio: '+author:''}.
+${key?'Tono requerido: '+key+'.':'Usa el tono más habitual para esta canción en iglesias hispanohablantes.'}
+RESPONDE ÚNICAMENTE con un objeto JSON válido. Sin texto antes ni después. Sin markdown. Sin explicaciones:
+{"encontrada":true,"titulo":"Título oficial exacto","autor":"Compositor original","ministerio":"Ministerio o grupo","categoria":"Alabanza","tono":"G","ano":1997,"desc":"Una oración describiendo la canción","letra":"[Verso 1]\\n[G]Grande es el Se[D]ñor\\n[Em]digno de a[C]labar\\n\\n[Coro]\\n[G]Aleluya al[D] Señor"}
+Si NO conocés esta canción: {"encontrada":false,"mensaje":"Razón"}
+REGLAS para letra: 1) Secciones entre corchetes solos [Verso 1] [Coro] [Puente]. 2) Acordes DENTRO de la línea [G]tex[D]to. 3) Incluye TODA la canción completa. 4) Separa secciones con línea vacía. 5) Categoría: Alabanza|Adoración|Himno|Niños|Navidad|Instrumental`;
+  try{
+    const response=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='+groqKey,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        contents:[{parts:[{text:prompt}]}],
+        generationConfig:{temperature:0.3,maxOutputTokens:3000}
+      })
+    });
+    clearInterval(progInt);bar.style.width='100%';
+    if(!response.ok){
+      const e=await response.json().catch(()=>({}));
+      const msg=e.error?.message||'Error '+response.status;
+      if(response.status===400)throw new Error('API Key inválida. Verificá que copiaste bien tu Gemini API Key.');
+      if(response.status===429)throw new Error('Límite de uso alcanzado. Esperá un momento e intentá de nuevo.');
+      throw new Error(msg);
+    }
+    const data=await response.json();
+    const raw=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+    let parsed;
+    try{parsed=JSON.parse(raw.replace(/^```json\s*/,'').replace(/\s*```$/,'').replace(/^```\s*/,'').trim());}
+    catch(e){
+      const m=raw.match(/\{[\s\S]*\}/);
+      if(m)try{parsed=JSON.parse(m[0]);}catch(e2){throw new Error('Respuesta inesperada de la IA');}
+      else throw new Error('No se pudo interpretar la respuesta');
+    }
+    if(!parsed.encontrada){showAIError(parsed.mensaje||'No se encontró esta canción.','Probá agregando el autor o ministerio.');return;}
+    if(!parsed.titulo||!parsed.letra)throw new Error('La respuesta está incompleta. Intentá de nuevo.');
+    aiState.result=parsed;aiState.tab='preview';
+    aiState.history.unshift({name,author,key,result:parsed,date:new Date().toLocaleDateString('es-UY')});
+    if(aiState.history.length>8)aiState.history=aiState.history.slice(0,8);
+    showAIResult(parsed);
+  }catch(err){
+    clearInterval(progInt);
+    showAIError(
+      (err.message.includes('fetch')||err.message.includes('network')||err.message.includes('Failed'))?'Sin conexión a internet':err.message,
+      'Verificá tu conexión e intentá de nuevo.'
+    );
+    console.error('AI error:',err);
+  }finally{
+    aiState.searching=false;
+    setTimeout(()=>{
+      document.getElementById('aiLoading').style.display='none';
+      document.getElementById('aiSearchBtn').disabled=false;
+      document.getElementById('aiSearchBtn').innerHTML='🤖 Generar con IA';
+    },400);
+  }
+}
+
+function showAIResult(s){
+  document.getElementById('aiResultTitle').textContent=s.titulo;
+  document.getElementById('aiResultMeta').textContent=s.autor+' · '+s.ministerio;
+  document.getElementById('aiResultTags').innerHTML=
+    '<span class="tag tag-cat">'+s.categoria+'</span> '+
+    '<span class="tag tag-key">♪ '+s.tono+'</span> '+
+    (s.ano?'<span class="tag tag-min">'+s.ano+'</span> ':'')+
+    '<span class="tag" style="background:#f3e8ff;color:#7b2fbe">🤖 Generado por IA</span>';
+  document.getElementById('aiResultLetra').textContent=s.letra;
+  // Live chord preview
+  const pc=document.getElementById('aiLyricsPreview');
+  const lines=s.letra.split('\n');
+  let html='';let inStanza=false;
+  lines.forEach(raw=>{
+    const line=raw.trimEnd();
+    const isLabel=/^\[(?![A-G][#b]?(?:m|maj|min|sus|add|dim|aug|7|9|11|13|\/)?[0-9]*)[\w\s\d]+\]$/.test(line.trim());
+    if(isLabel){if(inStanza)html+='</div>';html+='<div class="stanza"><div class="stanza-label">'+line.replace(/[\[\]]/g,'')+'</div>';inStanza=true;return;}
+    if(!inStanza){html+='<div class="stanza">';inStanza=true;}
+    const p=parseLine(line);
+    html+='<div class="lyric-line"><div class="chords">'+p.chords+'</div><div class="words">'+(p.words||'&nbsp;')+'</div></div>';
+  });
+  if(inStanza)html+='</div>';
+  pc.innerHTML=html;
+  pc.querySelectorAll('.chord').forEach(el=>{el.addEventListener('mouseenter',showChordTip);el.addEventListener('mouseleave',hideChordTip);});
+  document.getElementById('aiResult').style.display='block';
+  document.getElementById('aiPreviewPanel').style.display='block';
+  document.getElementById('aiRawPanel').style.display='none';
+  document.getElementById('aiTab1').onclick=()=>switchAITab('preview');
+  document.getElementById('aiTab2').onclick=()=>switchAITab('raw');
+  switchAITab('preview');
+  renderAIHistory();
+  document.getElementById('aiHistory').style.display=aiState.history.length?'block':'none';
+  setTimeout(()=>document.getElementById('aiResult').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+function switchAITab(tab){
+  aiState.tab=tab;
+  const ip=tab==='preview';
+  document.getElementById('aiPreviewPanel').style.display=ip?'block':'none';
+  document.getElementById('aiRawPanel').style.display=ip?'none':'block';
+  const activeStyle='padding:8px 16px;font-size:.82rem;font-weight:700;color:var(--accent);border-bottom:2px solid var(--accent);margin-bottom:-2px;cursor:pointer';
+  const inactiveStyle='padding:8px 16px;font-size:.82rem;font-weight:700;color:var(--text-soft);cursor:pointer';
+  document.getElementById('aiTab1').style.cssText=ip?activeStyle:inactiveStyle;
+  document.getElementById('aiTab2').style.cssText=ip?inactiveStyle:activeStyle;
+}
+
+function showAIError(msg,sub){
+  document.getElementById('aiErrorMsg').textContent=msg;
+  document.getElementById('aiErrorSub').textContent=sub||'Intentá con otro nombre o verificá la ortografía.';
+  document.getElementById('aiError').style.display='block';
+}
+
+function clearAIResult(){
+  aiState.result=null;aiState.tab='preview';
+  document.getElementById('aiResult').style.display='none';
+  document.getElementById('aiError').style.display='none';
+  document.getElementById('aiSongName').value='';
+  document.getElementById('aiSongAuthor').value='';
+  document.getElementById('aiSongKey').value='';
+  document.getElementById('aiProgressBar').style.width='0%';
+  setTimeout(()=>document.getElementById('aiSongName').focus(),100);
+}
+
+function saveAISong(){
+  const s=aiState.result;if(!s)return;
+  const exists=state.songs.find(x=>x.titulo.toLowerCase().trim()===s.titulo.toLowerCase().trim());
+  if(exists){toast('⚠️ "'+s.titulo+'" ya está en tu biblioteca');if(confirm('¿Querés abrir la canción?'))openSong(exists.id);return;}
+  const nueva={id:Date.now(),titulo:s.titulo,autor:s.autor||'Desconocido',ministerio:s.ministerio||'Independiente',
+    categoria:s.categoria||'Alabanza',tono:s.tono||'G',ano:s.ano||null,desc:s.desc||'',
+    preview:s.letra.replace(/\[.*?\]/g,'').split('\n').find(l=>l.trim()&&!l.startsWith('['))||s.titulo,
+    letra:s.letra,vista:0};
+  state.songs.push(nueva);saveState();updateBadges();
+  toast('✅ "'+nueva.titulo+'" guardada en la biblioteca');
+  setTimeout(()=>{if(confirm('¿Querés ver la canción con acordes ahora?'))openSong(nueva.id);},600);
+}
+
+function renderAIHistory(){
+  const el=document.getElementById('aiHistoryList');if(!el)return;
+  if(!aiState.history.length){document.getElementById('aiHistory').style.display='none';return;}
+  el.innerHTML=aiState.history.map((h,i)=>{
+    const saved=state.songs.find(x=>x.titulo.toLowerCase()===(h.result?.titulo||'').toLowerCase());
+    return'<div style="background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .2s" onmouseover="this.style.borderColor=\'var(--accent)\'" onmouseout="this.style.borderColor=\'var(--border)\'" onclick="reloadAIHistory('+i+')">'
+      +'<div style="width:36px;height:36px;border-radius:10px;background:#f3e8ff;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🤖</div>'
+      +'<div style="flex:1;min-width:0"><div style="font-weight:700;font-size:.87rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(h.result?.titulo||h.name)+'</div>'
+      +'<div style="font-size:.74rem;color:var(--text-soft)">'+(h.result?.autor||h.author||'—')+' · '+h.date+'</div></div>'
+      +(saved?'<span class="tag" style="background:var(--green-bg);color:var(--green);font-size:.66rem">✅ Guardada</span>':'<span class="tag" style="background:#f3e8ff;color:#7b2fbe;font-size:.66rem">IA</span>')
+      +'</div>';
+  }).join('');
+}
+
+function reloadAIHistory(idx){
+  const h=aiState.history[idx];if(!h?.result)return;
+  aiState.result=h.result;
+  document.getElementById('aiSongName').value=h.name||'';
+  document.getElementById('aiSongAuthor').value=h.author||'';
+  showAIResult(h.result);
+}
+
+function clearAIHistory(){
+  if(!confirm('¿Limpiar el historial?'))return;
+  aiState.history=[];document.getElementById('aiHistory').style.display='none';toast('Historial limpiado');
+}
+
+/* ═══════════════════════════════════════
+   HELP / MANUAL
+═══════════════════════════════════════ */
+function renderHelp(){
+  const sections=[
+    {
+      icon:'🏠',color:'#1a5cb8',bg:'#e8f0fc',
+      title:'Pantalla de Inicio',
+      content:`
+        <p style="font-size:.86rem;color:var(--text-soft);margin:14px 0 12px">La pantalla principal te muestra un resumen de todo lo que tenés en la app.</p>
+        <div class="help-feature-grid">
+          <div class="help-feature"><span class="help-feature-icon">🔥</span><div><div class="help-feature-title">Más Populares</div><div class="help-feature-desc">Canciones con más vistas, ordenadas automáticamente</div></div></div>
+          <div class="help-feature"><span class="help-feature-icon">🆕</span><div><div class="help-feature-title">Recién Agregadas</div><div class="help-feature-desc">Las últimas canciones agregadas a tu biblioteca</div></div></div>
+          <div class="help-feature"><span class="help-feature-icon">🏷️</span><div><div class="help-feature-title">Categorías rápidas</div><div class="help-feature-desc">Filtrá por Alabanza, Adoración, Himnos, Niños, etc.</div></div></div>
+          <div class="help-feature"><span class="help-feature-icon">📊</span><div><div class="help-feature-title">Estadísticas</div><div class="help-feature-desc">Ves cuántas canciones, repertorios y favoritos tenés</div></div></div>
+        </div>`
+    },
+    {
+      icon:'🔍',color:'#1a9954',bg:'#e8faf0',
+      title:'Buscador de Canciones',
+      content:`
+        <div class="help-step"><div class="help-step-num">1</div><div class="help-step-text">Tocá la <strong>barra de búsqueda</strong> arriba en la pantalla</div></div>
+        <div class="help-step"><div class="help-step-num">2</div><div class="help-step-text">Escribí el <strong>título</strong>, <strong>autor</strong>, <strong>ministerio</strong> o cualquier <strong>palabra de la letra</strong></div></div>
+        <div class="help-step"><div class="help-step-num">3</div><div class="help-step-text">Los resultados aparecen <strong>al instante</strong> mientras escribís. Tocá cualquier resultado para abrir la canción</div></div>
+        <div class="help-step"><div class="help-step-num">4</div><div class="help-step-text">También podés ir a <strong>🎵 Canciones</strong> en el menú y usar los <strong>filtros por categoría</strong> y el <strong>ordenamiento</strong></div></div>
+        <div class="help-tip">💡 <span>Presioná <span class="help-shortcut">Enter</span> para ir directo a los resultados completos</span></div>`
+    },
+    {
+      icon:'🎵',color:'#c4972a',bg:'#fdf4e3',
+      title:'Ver Letra y Acordes',
+      content:`
+        <div class="help-step"><div class="help-step-num">1</div><div class="help-step-text">Tocá cualquier canción para <strong>abrirla</strong></div></div>
+        <div class="help-step"><div class="help-step-num">2</div><div class="help-step-text"><strong>Transponer el tono:</strong> usá los botones <span class="help-shortcut">−</span> y <span class="help-shortcut">+</span> para subir o bajar semitonos. O tocá directamente el tono deseado en la pestaña <strong>ℹ️ Información</strong></div></div>
+        <div class="help-step"><div class="help-step-num">3</div><div class="help-step-text"><strong>Tamaño de letra:</strong> los botones <span class="help-shortcut">A</span> cambian el tamaño para mejor lectura en escenario</div></div>
+        <div class="help-step"><div class="help-step-num">4</div><div class="help-step-text"><strong>Ocultar acordes:</strong> tocá <span class="help-shortcut">🎸 Acordes</span> para ver solo la letra sin acordes</div></div>
+        <div class="help-step"><div class="help-step-num">5</div><div class="help-step-text">Pasá el mouse (o el dedo) sobre un <strong>acorde azul</strong> para ver su digitación en guitarra</div></div>
+        <div class="help-tip">💡 <span>El tono transpuesto se usa automáticamente al imprimir o compartir</span></div>`
+    },
+    {
+      icon:'🤖',color:'#7b2fbe',bg:'#f3e8ff',
+      title:'Buscar con IA',
+      content:`
+        <p style="font-size:.86rem;color:var(--text-soft);margin:14px 0 12px">La IA puede generar la letra con acordes de casi cualquier canción cristiana conocida.</p>
+        <div class="help-step"><div class="help-step-num">1</div><div class="help-step-text">Andá a <strong>🤖 Buscar con IA</strong> en el menú lateral</div></div>
+        <div class="help-step"><div class="help-step-num">2</div><div class="help-step-text">Escribí el <strong>nombre de la canción</strong>. Opcionalmente el autor y el tono preferido</div></div>
+        <div class="help-step"><div class="help-step-num">3</div><div class="help-step-text">Tocá <strong>🤖 Buscar con IA</strong> y esperá unos segundos</div></div>
+        <div class="help-step"><div class="help-step-num">4</div><div class="help-step-text">Revisá la letra generada. Si está bien, tocá <strong>✅ Guardar en biblioteca</strong></div></div>
+        <div class="help-step"><div class="help-step-num">5</div><div class="help-step-text">Si los acordes necesitan corrección, podés editarlos en <strong>⚙️ Administrar → ✏️ Editar</strong></div></div>
+        <div class="help-tip">⚠️ <span>Los acordes de la IA son aproximados. Verificalos antes de usarlos en un servicio.</span></div>`
+    },
+    {
+      icon:'♥',color:'#e84040',bg:'#fdeaea',
+      title:'Favoritos',
+      content:`
+        <div class="help-step"><div class="help-step-num">1</div><div class="help-step-text">Tocá el ícono <span class="help-shortcut">♡</span> en cualquier canción para <strong>guardarla en favoritos</strong></div></div>
+        <div class="help-step"><div class="help-step-num">2</div><div class="help-step-text">Todos tus favoritos aparecen en <strong>♥ Favoritos</strong> del menú lateral</div></div>
+        <div class="help-step"><div class="help-step-num">3</div><div class="help-step-text">Para <strong>quitar de favoritos</strong> tocá el corazón rojo de nuevo</div></div>
+        <div class="help-tip">💡 <span>Los favoritos se guardan en tu dispositivo automáticamente</span></div>`
+    },
+    {
+      icon:'📋',color:'#1a5cb8',bg:'#e8f0fc',
+      title:'Repertorios',
+      content:`
+        <p style="font-size:.86rem;color:var(--text-soft);margin:14px 0 12px">Los repertorios son listas ordenadas de canciones para un evento específico.</p>
+        <div class="help-step"><div class="help-step-num">1</div><div class="help-step-text">Andá a <strong>📋 Repertorios</strong> y tocá <strong>+ Nuevo</strong></div></div>
+        <div class="help-step"><div class="help-step-num">2</div><div class="help-step-text">Ponle un nombre y descripción (ej: "Servicio Dominical – 15 Enero")</div></div>
+        <div class="help-step"><div class="help-step-num">3</div><div class="help-step-text">Abrí el repertorio y tocá <strong>+ Agregar canción</strong> para buscar y agregar canciones</div></div>
+        <div class="help-step"><div class="help-step-num">4</div><div class="help-step-text"><strong>Reordenar:</strong> arrastrá el ícono <span class="help-shortcut">⠿</span> para cambiar el orden de las canciones</div></div>
+        <div class="help-step"><div class="help-step-num">5</div><div class="help-step-text">Tocá <strong>🔗 Compartir</strong> para enviar la lista por WhatsApp o copiarla</div></div>
+        <div class="help-step"><div class="help-step-num">6</div><div class="help-step-text">Tocá <strong>📥 Exportar</strong> para descargar el repertorio completo con letras en .txt</div></div>
+        <div class="help-tip">💡 <span>También podés agregar una canción a un repertorio directamente desde su pantalla, con el botón <strong>📋 Agregar a lista</strong></span></div>`
+    },
+    {
+      icon:'📁',color:'#e68900',bg:'#fdf3e3',
+      title:'Carpetas',
+      content:`
+        <p style="font-size:.86rem;color:var(--text-soft);margin:14px 0 12px">Las carpetas organizan canciones por grupo o contexto para acceder rápido cuando van a cantar.</p>
+        <div class="help-step"><div class="help-step-num">1</div><div class="help-step-text">Andá a <strong>📁 Carpetas</strong> y tocá <strong>+ Nueva Carpeta</strong></div></div>
+        <div class="help-step"><div class="help-step-num">2</div><div class="help-step-text">Elegí nombre, descripción y color (para identificarla visualmente)</div></div>
+        <div class="help-step"><div class="help-step-num">3</div><div class="help-step-text">Para agregar canciones: abrí una canción y tocá <strong>📁 Agregar a carpeta</strong>, o abrí la carpeta y tocá <strong>+ Agregar canción</strong></div></div>
+        <div class="help-step"><div class="help-step-num">4</div><div class="help-step-text">Desde la carpeta podés <strong>🖨️ Imprimir lista</strong> con todos los títulos, tonos y categorías</div></div>
+        <div class="help-tip">💡 <span>Diferencia clave: las <strong>carpetas</strong> agrupan canciones por contexto (ej: "Grupo Jóvenes"), los <strong>repertorios</strong> son listas ordenadas para un evento específico</span></div>`
+    },
+    {
+      icon:'🖨️',color:'#374151',bg:'#f3f4f6',
+      title:'Imprimir Canciones',
+      content:`
+        <div class="help-step"><div class="help-step-num">1</div><div class="help-step-text">Abrí la canción que querés imprimir</div></div>
+        <div class="help-step"><div class="help-step-num">2</div><div class="help-step-text">Tocá <strong>🔗 Compartir</strong> y luego <strong>🖨️ Imprimir</strong></div></div>
+        <div class="help-step"><div class="help-step-num">3</div><div class="help-step-text">Configurá las opciones: si incluir acordes, encabezado, el tono actual y el tamaño de letra</div></div>
+        <div class="help-step"><div class="help-step-num">4</div><div class="help-step-text">Tocá <strong>🖨️ Imprimir</strong> — se abre una ventana limpia lista para imprimir</div></div>
+        <div class="help-feature-grid" style="margin-top:10px">
+          <div class="help-feature"><span class="help-feature-icon">✅</span><div><div class="help-feature-title">Con acordes</div><div class="help-feature-desc">Para músicos e instrumentistas</div></div></div>
+          <div class="help-feature"><span class="help-feature-icon">📜</span><div><div class="help-feature-title">Sin acordes</div><div class="help-feature-desc">Solo letra, para el coro o cantantes</div></div></div>
+          <div class="help-feature"><span class="help-feature-icon">🎵</span><div><div class="help-feature-title">Tono transpuesto</div><div class="help-feature-desc">Imprime en el tono que configuraste</div></div></div>
+          <div class="help-feature"><span class="help-feature-icon">📏</span><div><div class="help-feature-title">Tamaño de letra</div><div class="help-feature-desc">Desde 10pt hasta 16pt para mejor visibilidad</div></div></div>
+        </div>`
+    },
+    {
+      icon:'🔗',color:'#1a5cb8',bg:'#e8f0fc',
+      title:'Compartir Canciones',
+      content:`
+        <div class="help-step"><div class="help-step-num">1</div><div class="help-step-text">Abrí la canción y tocá <strong>🔗 Compartir ▾</strong></div></div>
+        <div class="help-step"><div class="help-step-num">2</div><div class="help-step-text"><strong>💬 WhatsApp:</strong> abre WhatsApp con el título, autor y tono listo para enviar</div></div>
+        <div class="help-step"><div class="help-step-num">3</div><div class="help-step-text"><strong>📧 Correo:</strong> abre tu cliente de correo con el asunto y mensaje preparado</div></div>
+        <div class="help-step"><div class="help-step-num">4</div><div class="help-step-text"><strong>🔗 Copiar enlace:</strong> copia el enlace de la canción al portapapeles</div></div>
+        <div class="help-step"><div class="help-step-num">5</div><div class="help-step-text"><strong>📥 Descargar .txt:</strong> descarga la letra completa con acordes como archivo de texto</div></div>`
+    },
+    {
+      icon:'⚙️',color:'#374151',bg:'#f3f4f6',
+      title:'Panel de Administración',
+      content:`
+        <p style="font-size:.86rem;color:var(--text-soft);margin:14px 0 12px">El panel admin te permite gestionar toda la biblioteca de canciones.</p>
+        <div class="help-feature-grid">
+          <div class="help-feature"><span class="help-feature-icon">➕</span><div><div class="help-feature-title">Agregar canción</div><div class="help-feature-desc">Completá los datos y la letra con acordes en formato [ACORDE]</div></div></div>
+          <div class="help-feature"><span class="help-feature-icon">✏️</span><div><div class="help-feature-title">Editar canción</div><div class="help-feature-desc">Corregí acordes, letra, tono o cualquier dato</div></div></div>
+          <div class="help-feature"><span class="help-feature-icon">🗑</span><div><div class="help-feature-title">Eliminar canción</div><div class="help-feature-desc">Borra canciones que ya no necesitás</div></div></div>
+          <div class="help-feature"><span class="help-feature-icon">💡</span><div><div class="help-feature-title">Sugerencias</div><div class="help-feature-desc">Aprobá o rechazá sugerencias de la comunidad</div></div></div>
+          <div class="help-feature"><span class="help-feature-icon">🏷️</span><div><div class="help-feature-title">Categorías</div><div class="help-feature-desc">Creá nuevas categorías para organizar mejor</div></div></div>
+          <div class="help-feature"><span class="help-feature-icon">📊</span><div><div class="help-feature-title">Estadísticas</div><div class="help-feature-desc">Total de canciones, favoritos, repertorios y más</div></div></div>
+        </div>
+        <div class="help-tip">💡 <span>Formato de acordes: <strong>[G]texto [D]texto</strong> — el acorde va entre corchetes justo antes de la sílaba donde suena</span></div>`
+    },
+    {
+      icon:'🌙',color:'#7b2fbe',bg:'#f3e8ff',
+      title:'Modo Oscuro y Configuración',
+      content:`
+        <div class="help-step"><div class="help-step-num">1</div><div class="help-step-text">Tocá el ícono <span class="help-shortcut">🌙</span> en la barra superior para activar el <strong>modo oscuro</strong></div></div>
+        <div class="help-step"><div class="help-step-num">2</div><div class="help-step-text">La preferencia se <strong>guarda automáticamente</strong> en tu dispositivo</div></div>
+        <div class="help-step"><div class="help-step-num">3</div><div class="help-step-text">Tocá el ícono <span class="help-shortcut">👤</span> para <strong>iniciar sesión</strong> (próximamente con sincronización en la nube)</div></div>
+        <div class="help-step"><div class="help-step-num">4</div><div class="help-step-text">Si aparece la barra de instalación, podés <strong>instalar la app</strong> en tu dispositivo para usarla sin internet</div></div>
+        <div class="help-tip">💡 <span>Todos tus datos (favoritos, repertorios, carpetas, canciones agregadas) se guardan localmente en tu dispositivo</span></div>`
+    }
+  ];
+
+  document.getElementById('helpAccordion').innerHTML=sections.map((s,i)=>`
+    <div class="help-section${i===0?' open':''}" id="help-section-${i}">
+      <div class="help-header" onclick="toggleHelp(${i})">
+        <div class="help-header-left">
+          <div class="help-icon" style="background:${s.bg};color:${s.color}">${s.icon}</div>
+          <div class="help-title">${s.title}</div>
+        </div>
+        <span class="help-arrow">▼</span>
+      </div>
+      <div class="help-body">${s.content}</div>
+    </div>`).join('');
+}
+
+function toggleHelp(i){
+  const el=document.getElementById('help-section-'+i);
+  el.classList.toggle('open');
+}
+
+/* ── INIT ── */
+updateBadges();
+renderHome();
+</script>
+</body>
+</html>
